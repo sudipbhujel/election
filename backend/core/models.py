@@ -89,3 +89,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         full_name = f'{self.first_name} {self.last_name}'
         return full_name.strip()
+
+    def __str__(self):
+        return str(self.citizenship_number)
