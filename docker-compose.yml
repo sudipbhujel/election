@@ -26,3 +26,13 @@ services:
             - POSTGRES_DB=election
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=supersecretpassword
+    redis:
+        image: "redis:alpine"
+    celery:
+        build: .
+        command: celery -A app worker -l info
+        volumes:
+            - .:/app
+        depends_on:
+            - db
+            - redis

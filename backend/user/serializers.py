@@ -7,6 +7,10 @@ from core.models import FaceImage, User
 from .authenticate import FaceIdAuthBackend
 
 
+from django.contrib.sites.shortcuts import get_current_site
+from .tasks import user_created
+
+
 class FaceImageSerializer(serializers.ModelSerializer):
     """
     Serializes FaceImage models
@@ -41,21 +45,28 @@ class UserRegistrationSerializer(serializers.Serializer):
         """
         Create faceimage and user object
         """
-        print(validated_data)
         faceimage_data = validated_data.pop('faceimageserializer')
         user_data = validated_data.pop('userserializer')
-        user = User.objects.create(**user_data)
+        payload = {
+            'citizenship_number': user_data['citizenship_number'],
+            'email': user_data['email'],
+            'first_name': user_data['first_name'],
+            'last_name': user_data['last_name']
+        }
+        user = User.objects.create(**payload)
+        user.is_active = False
+        user.set_password(user_data['password'])
+        user.save()
         faceimage = FaceImage.objects.create(user=user, **faceimage_data)
-        print(faceimage_data)
         faceimage_data["image"] = faceimage.image.url
-        print(faceimage_data)
-        print(faceimage.image.url)
         image_data = {
             'image': faceimage.image.url
         }
         data = {'faceimageserializer': image_data,
                 'userserializer': user_data}
-        # object = UserRegistrationSerializer(data)
+        # Celery work
+        current_site = get_current_site(self.context.get('request'))
+        user_created(user.id, current_site)
         return data
 
 
