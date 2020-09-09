@@ -1,8 +1,20 @@
+import os
+import uuid
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+
+
+def user_face_image_file_path(instance, filename):
+    """
+    Generate file path for a user face image
+    """
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/user/', str(instance.user), 'face', filename)
 
 
 class UserManager(BaseUserManager):
@@ -92,3 +104,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return str(self.citizenship_number)
+
+
+class FaceImage(models.Model):
+    """
+    A face model stores user face image for face identification
+    """
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='faceimage')
+    image = models.ImageField(
+        _('face image'), upload_to=user_face_image_file_path)
+
+    def __str__(self):
+        return str(self.user.citizenship_number)

@@ -43,3 +43,15 @@ services:
 
 4. $bash `docker-compose build`
 5. $bash `docker-compose run app sh -c "django-admin startproject app ."`
+
+## Requirements for postgres
+`postgresql-client gcc libc-dev linux-headers postgresql-dev`
+
+## Requirements for dlib in alpine
+`libgcc libjpeg-turbo libpng libstdc++ libx11 musl openblas pkgconf make cmake g++`
+
+## Requirementa for Pillow
+` jpeg-dev musl-dev zlib zlib-dev`
+
+## Access psql
+`docker container exec -it 6f76017bd16b psql -U postgres`
