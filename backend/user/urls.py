@@ -10,4 +10,6 @@ urlpatterns = [
     path('token/', views.CreateTokenView.as_view(), name='token'),
     path('face/', views.UserFaceImageView.as_view(), name='face'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    path('password_change/', views.ChangeUserPasswordView.as_view(),
+         name='password_change')
 ]

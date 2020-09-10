@@ -1,13 +1,11 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, password_validation
+from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
 from core.models import FaceImage, User
 
 from .authenticate import FaceIdAuthBackend
-
-
-from django.contrib.sites.shortcuts import get_current_site
 from .tasks import user_created
 
 
@@ -28,10 +26,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'citizenship_number', 'email',
+        fields = ('citizenship_number', 'email',
                   'password', 'first_name', 'last_name')
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
-        read_only_fields = ('id',)
 
 
 class UserRegistrationSerializer(serializers.Serializer):
@@ -99,3 +96,51 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class ChangeUserPasswordSerializer(serializers.Serializer):
+    """
+    Serializer for changing a password.
+    """
+    old_password = serializers.CharField()
+    new_password1 = serializers.CharField()
+    new_password2 = serializers.CharField()
+
+    class Meta:
+        model = User
+        fields = ('old_password', 'new_password1', 'new_password2')
+        extra_kwargs = {
+            'new_password1': {'write_only': True, 'min_length': 5},
+            'new_password2': {'write_only': True, 'min_length': 5}
+        }
+
+    def validate_old_password(self, data):
+        """
+        Validation logic for old password of the user.
+        """
+        old_password = data
+        user = self.context.get('request').user
+        if not user.check_password(old_password):
+            raise serializers.ValidationError(
+                _('Your old password don\'t match')
+            )
+        return data
+
+    def validate(self, attrs):
+        new_password1 = attrs.get('new_password1')
+        new_password2 = attrs.get('new_password2')
+
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise serializers.ValidationError(
+                {'new_password2': _('The password don\'t match.')})
+
+        password_validation.validate_password(
+            new_password2, self.context.get('request').user)
+        return attrs
+
+    def save(self, **kwargs):
+        new_password = self.validated_data.get('new_password1')
+        user = self.context.get('request').user
+        user.set_password(new_password)
+        user.save()
+        return user
