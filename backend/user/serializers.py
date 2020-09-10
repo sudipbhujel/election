@@ -3,7 +3,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
-from core.models import FaceImage, User
+from core.models import FaceImage
 
 from .authenticate import FaceIdAuthBackend
 from .tasks import user_created
@@ -47,12 +47,12 @@ class UserRegistrationSerializer(serializers.Serializer):
         payload = {
             'citizenship_number': user_data['citizenship_number'],
             'email': user_data['email'],
+            'password': user_data['password'],
             'first_name': user_data['first_name'],
             'last_name': user_data['last_name']
         }
-        user = User.objects.create(**payload)
+        user = get_user_model().objects.create_user(**payload)
         user.is_active = False
-        user.set_password(user_data['password'])
         user.save()
         faceimage = FaceImage.objects.create(user=user, **faceimage_data)
         faceimage_data["image"] = faceimage.image.url
@@ -107,7 +107,7 @@ class ChangeUserPasswordSerializer(serializers.Serializer):
     new_password2 = serializers.CharField()
 
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ('old_password', 'new_password1', 'new_password2')
         extra_kwargs = {
             'new_password1': {'write_only': True, 'min_length': 5},
