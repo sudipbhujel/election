@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from rest_framework import generics, permissions, status
+from django.utils.translation import ugettext_lazy as _
+from rest_framework import generics, permissions, status, views
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
@@ -10,9 +13,12 @@ from rest_framework.settings import api_settings
 from core.models import User
 
 from .serializers import (AuthTokenSerializer, ChangeUserPasswordSerializer,
-                          FaceImageSerializer, UserRegistrationSerializer,
-                          UserSerializer)
-from .tokens import account_activation_token
+                          FaceImageSerializer,
+                          ResetUserPasswordConfirmSerializer,
+                          ResetUserPasswordLinkSerializer,
+                          UserRegistrationSerializer, UserSerializer)
+from .tasks import reset_password_created
+from .tokens import account_activation_token, password_reset_token
 
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
@@ -67,7 +73,9 @@ def activate(request, uidb64, token):
         return response
     else:
         return JsonResponse(
-            {'error': 'Not valid link!'}, status=status.HTTP_400_BAD_REQUEST)
+            {'error': _('Not valid link!')},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class ChangeUserPasswordView(generics.UpdateAPIView):
@@ -93,3 +101,72 @@ class ChangeUserPasswordView(generics.UpdateAPIView):
         token, created = Token.objects.get_or_create(user=user)
         # return new token
         return Response({'token': token.key}, status=status.HTTP_200_OK)
+
+
+class ResetUserPasswordLinkView(generics.CreateAPIView):
+    """
+    Password reset view for user.
+    """
+    serializer_class = ResetUserPasswordLinkSerializer
+
+    def post(self, request, format=None, *args, **kwargs):
+        serializer = ResetUserPasswordLinkSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.data.get('email')
+        citizenship_number = serializer.data.get('citizenship_number')
+        current_site = get_current_site(request)
+        user = get_user_model().objects.get(
+            citizenship_number=citizenship_number, email=email)
+        reset_password_created(user.id, current_site)
+        return Response(
+            {'message': _('Password reset link is sent to your')},
+            status=status.HTTP_200_OK
+        )
+
+
+class ResetUserPasswordConfirmView(views.APIView):
+    """
+    Password reset confirm view.
+    """
+
+    serializer_class = ResetUserPasswordConfirmSerializer
+
+    def get(self, request, uidb64, token, format=None, *args, **kwargs):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        if user is not None and password_reset_token.check_token(user, token):
+            return Response(
+                {'message': 'Link is valid.'},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {'error': _('Not valid link!')},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    def post(self, request, uidb64=None, token=None,
+             format=None, *args, **kwargs):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        if user is not None and password_reset_token.check_token(user, token):
+            serializer = ResetUserPasswordConfirmSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.validated_data['user'] = user
+            serializer.save()
+            return Response(
+                {'message': 'Your password is set.'},
+                status=status.HTTP_200_OK
+            )
+
+        else:
+            return Response(
+                {'error': _('Not valid link!')},
+                status=status.HTTP_400_BAD_REQUEST
+            )

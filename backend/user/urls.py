@@ -11,5 +11,10 @@ urlpatterns = [
     path('face/', views.UserFaceImageView.as_view(), name='face'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('password_change/', views.ChangeUserPasswordView.as_view(),
-         name='password_change')
+         name='password_change'),
+    path('reset_password/', views.ResetUserPasswordLinkView.as_view(),
+         name='reset_password'),
+    path('reset_password_confirm/<uidb64>/<token>/',
+         views.ResetUserPasswordConfirmView.as_view(),
+         name='reset_password_confirm')
 ]

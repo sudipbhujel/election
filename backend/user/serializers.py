@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model, password_validation
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
@@ -142,5 +143,66 @@ class ChangeUserPasswordSerializer(serializers.Serializer):
         new_password = self.validated_data.get('new_password1')
         user = self.context.get('request').user
         user.set_password(new_password)
+        user.save()
+        return user
+
+
+class ResetUserPasswordLinkSerializer(serializers.Serializer):
+    """
+    Serializer for reset link for a password.
+    """
+    citizenship_number = serializers.IntegerField()
+    email = serializers.EmailField()
+
+    class Meta:
+        model = get_user_model()
+        fields = ('citizenship_number', 'email')
+
+    def validate(self, attrs):
+        citizenship_number = attrs.get('citizenship_number')
+        email = attrs.get('email')
+
+        associated_user = get_user_model().objects.filter(
+            citizenship_number=citizenship_number, email=email)
+
+        if not associated_user.exists():
+            raise serializers.ValidationError(
+                {'error': _('User don\'t exist with given credential.')})
+        return attrs
+
+
+class ResetUserPasswordConfirmSerializer(serializers.Serializer):
+    """
+    Serializer for a password update.
+    """
+    new_password1 = serializers.CharField()
+    new_password2 = serializers.CharField()
+
+    class Meta:
+        model = get_user_model()
+        fields = ('new_password1', 'new_password2')
+        extra_kwargs = {
+            'new_password1': {'write_only': True, 'min_length': 5},
+            'new_password2': {'write_only': True, 'min_length': 5}
+        }
+
+    def validate(self, attrs):
+        new_password1 = attrs.get('new_password1')
+        new_password2 = attrs.get('new_password2')
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise ValidationError(
+                {'new_password2': _('New password don\'t match.')})
+
+        return attrs
+
+    def create(self, validated_data):
+        user = validated_data.pop('user')
+        password = validated_data.pop('new_password2')
+        try:
+            password_validation.validate_password(password, user)
+        except ValidationError:
+            raise serializers.ValidationError(
+                {'message': _('Choose strong password.')})
+        user.set_password(password)
         user.save()
         return user
