@@ -64,12 +64,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     Citizenship Number, email and password are required. Other fields are
     optional.
     """
+    id = models.UUIDField(_('id'), default=uuid.uuid4,
+                          primary_key=True, editable=False)
     citizenship_number = models.IntegerField(_('citizenship number'),
                                              unique=True)
     email = models.EmailField(_('email address'), max_length=254, unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    middle_name = models.CharField(_('middle name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=30, blank=True)
 
     is_staff = models.BooleanField(_('staff status'),
                                    default=False,
@@ -95,26 +94,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
-    @property
-    def get_full_name(self):
-        """
-        Returns the first_name plus last_name, with a space in between.
-        """
-        full_name = f'{self.first_name} {self.last_name}'
-        return full_name.strip()
-
     def __str__(self):
-        return str(self.citizenship_number)
+        return str(self.id)
 
 
 class FaceImage(models.Model):
     """
     A face model stores user face image for face identification
     """
+    id = models.UUIDField(_('id'), default=uuid.uuid4,
+                          primary_key=True, editable=False)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='faceimage')
     image = models.ImageField(
         _('face image'), upload_to=user_face_image_file_path)
 
     def __str__(self):
-        return str(self.user.citizenship_number)
+        return str(self.id)

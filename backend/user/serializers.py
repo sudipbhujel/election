@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth.models import update_last_login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from rest_framework import serializers
+from rest_framework import exceptions, serializers
 
 from core.models import FaceImage
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .authenticate import FaceIdAuthBackend
 from .tasks import user_created
@@ -24,11 +26,9 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Serializes user model
     """
-
     class Meta:
         model = get_user_model()
-        fields = ('citizenship_number', 'email',
-                  'password', 'first_name', 'last_name')
+        fields = ('citizenship_number', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
 
@@ -48,9 +48,7 @@ class UserRegistrationSerializer(serializers.Serializer):
         payload = {
             'citizenship_number': user_data['citizenship_number'],
             'email': user_data['email'],
-            'password': user_data['password'],
-            'first_name': user_data['first_name'],
-            'last_name': user_data['last_name']
+            'password': user_data['password']
         }
         user = get_user_model().objects.create_user(**payload)
         user.is_active = False
@@ -68,19 +66,31 @@ class UserRegistrationSerializer(serializers.Serializer):
         return data
 
 
-class AuthTokenSerializer(serializers.Serializer):
+class AuthTokenObtainSerializer(TokenObtainPairSerializer):
     """
-    Serializer for the user authentication object
+    Seializer for th user authentication object.
+
+    Returns
+    -------
+        json: 'access' and 'token'
     """
-    citizenship_number = serializers.IntegerField()
-    password = serializers.CharField(
-        style={'input_type': 'password'},
-        trim_whitespace=False
-    )
-    face_image = serializers.ImageField()
+    default_error_messages = {
+        'no_active_account': _('No active account \
+            found with the given credentials')
+    }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'] = serializers.CharField(
+            style={'input_type': 'password'},
+            trim_whitespace=False
+        )
+        self.fields['face_image'] = serializers.ImageField()
 
     def validate(self, attrs):
-        """Validate and authenticate the user"""
+        """
+        Validates and authenticate the user.
+        """
         citizenship_number = attrs.get('citizenship_number')
         password = attrs.get('password')
         face_image = attrs.get('face_image')
@@ -91,12 +101,21 @@ class AuthTokenSerializer(serializers.Serializer):
             face_id=face_image
         )
 
-        if not user:
-            msg = _('Unable to authenticate with provided credentials')
-            raise serializers.ValidationError(msg, code='authentication')
+        if user is None or not user.is_active:
+            raise exceptions.AuthenticationFailed(
+                self.error_messages['no_active_account'],
+                'no_active_account',
+            )
 
-        attrs['user'] = user
-        return attrs
+        update_last_login(None, user)
+        data = {}
+
+        refresh = self.get_token(user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        return data
 
 
 class ChangeUserPasswordSerializer(serializers.Serializer):

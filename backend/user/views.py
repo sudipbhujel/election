@@ -6,14 +6,13 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import generics, permissions, status, views
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-from rest_framework.settings import api_settings
 
 from core.models import User
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import (AuthTokenSerializer, ChangeUserPasswordSerializer,
-                          FaceImageSerializer,
+from .serializers import (AuthTokenObtainSerializer,
+                          ChangeUserPasswordSerializer, FaceImageSerializer,
                           ResetUserPasswordConfirmSerializer,
                           ResetUserPasswordLinkSerializer,
                           UserRegistrationSerializer, UserSerializer)
@@ -51,10 +50,11 @@ class UserFaceImageView(generics.RetrieveAPIView):
         return self.request.user.faceimage
 
 
-class CreateTokenView(ObtainAuthToken):
-    """Create a new auth token for user"""
-    serializer_class = AuthTokenSerializer
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+class CreateTokenObtainPairView(TokenObtainPairView):
+    """
+    Create a new auth token for user.
+    """
+    serializer_class = AuthTokenObtainSerializer
 
 
 def activate(request, uidb64, token):

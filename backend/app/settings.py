@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '_b=x&inb(x!ic_er+lvjremkj4g7-+hth8nro4o)zimr7a1+s%')
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', '_b=x&inb(x!ic_er+lvjremkj4g7-+hth8nro4o)zimr7a1+s%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -145,3 +146,9 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}

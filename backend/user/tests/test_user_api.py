@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 CREATE_USER_URL = reverse('user:create')
-TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
 PWD_CHANGE_URL = reverse('user:password_change')
 
@@ -41,9 +40,7 @@ class PrivateUserAPITests(TestCase):
         self.user = create_user(
             citizenship_number=577,
             email='test@election.com',
-            password='test123',
-            first_name='test',
-            last_name='Name'
+            password='test123'
         )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -57,9 +54,7 @@ class PrivateUserAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, {
             'citizenship_number': self.user.citizenship_number,
-            'email': self.user.email,
-            'first_name': self.user.first_name,
-            'last_name': self.user.last_name
+            'email': self.user.email
         })
         self.user.delete()
 
@@ -77,14 +72,12 @@ class PrivateUserAPITests(TestCase):
         Test updating the user profile for authenticated user.
         """
         payload = {
-            'first_name': 'Updated Name',
             'password': 'newpassword123'
         }
 
         res = self.client.patch(ME_URL, payload)
 
         self.user.refresh_from_db()
-        self.assertEqual(self.user.first_name, payload['first_name'])
         self.assertTrue(res.status_code, status.HTTP_200_OK)
         self.user.delete()
 

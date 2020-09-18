@@ -21,7 +21,7 @@ def user_created(user_id, current_site):
     token = account_activation_token.make_token(user)
     subject = 'Verify your e-mail.'
     url = reverse('user:activate', kwargs={'uidb64': uid, 'token': token})
-    message = f'Dear {user.first_name} \n' \
+    message = f'Dear {user.citizenship_number} \n' \
         f'Please click on link to confirm your registration, \n' \
         f'{protocol}://{domain}{url}'
     mail_sent = send_mail(
@@ -46,7 +46,7 @@ def reset_password_created(user_id, current_site):
     subject = 'Reset your password'
     url = reverse('user:reset_password_confirm', kwargs={
                   'uidb64': uid, 'token': token})
-    message = f'Dear {user.first_name} \n' \
+    message = f'Dear {user.citizenship_number} \n' \
         f'Please click on link to reset your password, \n' \
         f'{protocol}://{domain}{url}'
     mail_sent = send_mail(

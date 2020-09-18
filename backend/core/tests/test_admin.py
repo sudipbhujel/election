@@ -16,7 +16,6 @@ class AdminSiteTests(TestCase):
             citizenship_number=2,
             email='user@election.com',
             password='test123',
-            first_name='Hello'
         )
 
     def test_users_listed(self):
@@ -28,7 +27,6 @@ class AdminSiteTests(TestCase):
 
         self.assertContains(res, self.user.citizenship_number)
         self.assertContains(res, self.user.email)
-        self.assertContains(res, self.user.first_name)
 
     def test_user_change_page(self):
         """
