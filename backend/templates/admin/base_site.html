@@ -1,0 +1,7 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}{{ title }} | {{ _('Election site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ _('Election Adminstration') }}</a></h1>
+{% endblock %}

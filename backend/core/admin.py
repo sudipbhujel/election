@@ -1,8 +1,12 @@
+import uuid
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Candidate, FaceImage, Party, Profile, User
+
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 
 class InlineFaceImage(admin.StackedInline):
@@ -40,6 +44,7 @@ class FaceImageAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
+    change_form_template = "eprofile/profile/change_form.html"
     date_hierarchy = ('date_submitted')
     readonly_fields = ('date_submitted', 'date_edited', )
     list_display = ('id', 'first_name', 'last_name', 'is_voter', 'is_voted')
@@ -59,6 +64,33 @@ class ProfileAdmin(admin.ModelAdmin):
     )
 
     radio_fields = {'gender': admin.HORIZONTAL}
+
+    def response_change(self, request, obj):
+        if "_generate-public-key" in request.POST:
+            public_key = str(uuid.uuid4())
+            if obj.public_key:
+                messages.error(
+                    request, f'Public key for {obj.get_full_name} \
+                         is already exists.')
+                return HttpResponseRedirect(".")
+            obj.public_key = public_key
+            obj.save()
+            self.message_user(
+                request, f'Public key for {obj.get_full_name} is {public_key}')
+            return HttpResponseRedirect(".")
+
+        if "_send-id-card" in request.POST:
+            citizenship_number = obj.user.citizenship_number
+            if not obj.public_key:
+                messages.error(request,
+                               'Plese, Create an ethereum account first.')
+                return HttpResponseRedirect(".")
+            self.message_user(request,
+                              f'citizenship_number: {citizenship_number}, \
+                                  public-key: {obj.public_key}')
+            return HttpResponseRedirect(".")
+
+        return super().response_change(request, obj)
 
 
 class PartyAdmin(admin.ModelAdmin):
