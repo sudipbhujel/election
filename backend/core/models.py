@@ -158,6 +158,7 @@ class Profile(models.Model):
                           primary_key=True, editable=False)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile')
+    public_key = models.CharField(_('public key'), max_length=50, blank=True)
 
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30)

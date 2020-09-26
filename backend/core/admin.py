@@ -46,8 +46,8 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name', 'municipality', 'tole')
     list_filter = ('is_voter', 'is_voted', 'gender')
     fieldsets = (
-        (_('Personal Info'), {'fields': ('user', 'first_name', 'last_name',
-                                         'dob', 'gender',
+        (_('Personal Info'), {'fields': ('user', 'public_key', 'first_name',
+                                         'last_name', 'dob', 'gender',
                                          'citizenship_issued_district',
                                          'citizenship')}),
         (_('Address info'), {

@@ -5,6 +5,23 @@ GENDER_CHOICES = (
     ('others', 'Others')
 )
 
+DEMOGRAPHIC_CHOICES = {
+    ('1', 'Province 1'): (
+        ('dolakha', 'Dolakha'),),
+    ('2', 'Province 2'): (
+        ('bhaktapur', 'Bhaktapur'),),
+    ('3', 'Bagmati'): (
+        ('kathmandu', 'Kathmandu'),),
+    ('4', 'Gandaki'): (
+        ('lalitpur', 'Lalitpur'),),
+    ('5', 'Province 5'): (
+        ('ramechhap', 'Ramechhap'),),
+    ('6', 'Karnali'): (
+        ('gorkha', 'Gorkha')),
+    ('7', 'Sudurpashchim'): (
+        ('makawanpur', 'Makawanpur'))
+}
+
 PROVINCE_CHOICES = (
     ('1', 'Province 1'),
     ('2', 'Province 2'),

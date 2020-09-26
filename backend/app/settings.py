@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from datetime import timedelta
 import os
 from pathlib import Path
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'core.apps.CoreConfig',
     'user.apps.UserConfig',
+    'eprofile.apps.EprofileConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -151,4 +153,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
 }
