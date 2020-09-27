@@ -30,6 +30,7 @@ RUN apt-get install -y --fix-missing \
     # QR code
     zbar-tools \
     libzbar-dev \
+    && apt-get autoremove \
     && apt-get clean && rm -rf /tmp/* /var/tmp/*
         
 COPY ./requirements.txt /requirements.txt

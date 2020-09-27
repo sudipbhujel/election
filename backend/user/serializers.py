@@ -62,7 +62,7 @@ class UserRegistrationSerializer(serializers.Serializer):
                 'userserializer': user_data}
         # Celery work
         current_site = get_current_site(self.context.get('request'))
-        user_created(user.id, current_site)
+        user_created.delay(user.id, current_site.domain)
         return data
 
 

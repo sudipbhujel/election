@@ -14,7 +14,7 @@ pyzbar==0.1.8
 PyQRCode==1.2.1
 qrcode==6.1
 
-celery==4.4.7
+celery==5.0.0
 redis==3.5.3
 
 six==1.15.0

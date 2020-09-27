@@ -117,7 +117,7 @@ class ResetUserPasswordLinkView(generics.CreateAPIView):
         current_site = get_current_site(request)
         user = get_user_model().objects.get(
             citizenship_number=citizenship_number, email=email)
-        reset_password_created(user.id, current_site)
+        reset_password_created.delay(user.id, current_site.domain)
         return Response(
             {'message': _('Password reset link is sent to your')},
             status=status.HTTP_200_OK

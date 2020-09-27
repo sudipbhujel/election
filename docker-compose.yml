@@ -1,7 +1,7 @@
 version: "3"
 
 services: 
-    app:
+    app: &app
         build: 
             context: .
         ports: 
@@ -20,19 +20,26 @@ services:
             - DB_PASS=supersecretpassword
         depends_on: 
             - db
+            - redis
+            - celery
     db:
         image: postgres:12-alpine
         environment: 
             - POSTGRES_DB=election
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=supersecretpassword
-    redis:
-        image: "redis:alpine"
-    celery:
-        build: .
-        command: celery -A app worker -l info
         volumes:
-            - .:/app
+            - postgresql_data:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+    redis:
+        image: redis:6-alpine
+    celery:
+        <<: *app
+        command: celery -A app worker -l INFO
+        ports: []
         depends_on:
-            - db
             - redis
+            - db
+volumes: 
+    postgresql_data:
