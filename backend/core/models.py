@@ -43,6 +43,16 @@ def user_profile_image_file_path(instance, filename):
     return os.path.join('uploads/user/', str(instance.user),
                         'profile', filename)
 
+def user_profile_id_card_file_path(instance, filename):
+    """
+    Generate file path for a user citizenship image
+    """
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/user/', str(instance.user),
+                        'card', filename)
+
 
 def party_logo_image_file_path(instance, filename):
     """
@@ -159,6 +169,8 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile')
     public_key = models.CharField(_('public key'), max_length=50, blank=True)
+    id_card = models.ImageField(
+        _('id card'), upload_to=user_profile_id_card_file_path, blank=True)
 
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30)
