@@ -1,12 +1,28 @@
-import uuid
-from django.contrib import admin
+
+from io import BytesIO
+
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.core.files.base import ContentFile
+from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Candidate, FaceImage, Party, Profile, User
+from ethereum.accounts import create_account
+from id.id import ID
 
-from django.http import HttpResponseRedirect
-from django.contrib import messages
+from .models import Candidate, FaceImage, Party, Profile, User
+from .tasks import id_generated
+from .utils import base64_encode
+
+
+def image_content(image):
+    """
+    Changes Pillow image to ContentFile. \
+        Django image field can make use of it.
+    """
+    img_io = BytesIO()
+    image.save(img_io, format='JPEG')
+    return ContentFile(img_io.getvalue())
 
 
 class InlineFaceImage(admin.StackedInline):
@@ -44,7 +60,7 @@ class FaceImageAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    change_form_template = "eprofile/profile/change_form.html"
+    change_form_template = "admin/eprofile/profile/change_form.html"
     date_hierarchy = ('date_submitted')
     readonly_fields = ('date_submitted', 'date_edited', )
     list_display = ('id', 'first_name', 'last_name', 'is_voter', 'is_voted')
@@ -55,6 +71,7 @@ class ProfileAdmin(admin.ModelAdmin):
                                          'last_name', 'dob', 'gender',
                                          'citizenship_issued_district',
                                          'citizenship')}),
+        (_('Images'), {'fields': ('image', 'id_card')}),
         (_('Address info'), {
          'fields': (('province', 'district'), ('municipality', 'ward'),
                     'tole')}),
@@ -66,29 +83,55 @@ class ProfileAdmin(admin.ModelAdmin):
     radio_fields = {'gender': admin.HORIZONTAL}
 
     def response_change(self, request, obj):
-        if "_generate-public-key" in request.POST:
-            public_key = str(uuid.uuid4())
+        if "_generate-id" in request.POST:
             if obj.public_key:
                 messages.error(
                     request, f'Public key for {obj.get_full_name} \
                          is already exists.')
-                return HttpResponseRedirect(".")
-            obj.public_key = public_key
-            obj.save()
-            self.message_user(
-                request, f'Public key for {obj.get_full_name} is {public_key}')
-            return HttpResponseRedirect(".")
+                return HttpResponseRedirect('.')
 
-        if "_send-id-card" in request.POST:
-            citizenship_number = obj.user.citizenship_number
-            if not obj.public_key:
-                messages.error(request,
-                               'Plese, Create an ethereum account first.')
-                return HttpResponseRedirect(".")
-            self.message_user(request,
-                              f'citizenship_number: {citizenship_number}, \
-                                  public-key: {obj.public_key}')
-            return HttpResponseRedirect(".")
+            try:
+                account = create_account()
+                obj.public_key = account.address
+                obj.save()
+                self.message_user(
+                    request, f'Public key for {obj.get_full_name} is {account.address}')
+
+                # ID generation
+                citizen = {
+                    'citizenship_number': obj.user.citizenship_number,
+                    'id': obj.id,
+                    'email': obj.user.email,
+                    'first_name': obj.first_name,
+                    'last_name': obj.last_name,
+                    'dob': obj.dob,
+                    'address': f'{obj.tole}-{obj.ward}, {obj.district}',
+                    'private_key': account.privateKey.hex()
+                }
+
+                id = ID(**citizen)
+
+                card = id.get_card()
+
+                obj.id_card.save('jpg', content=image_content(card))
+
+                self.message_user(
+                    request, 'GENERATED')
+
+                return HttpResponseRedirect('.')
+            except:
+                messages.error(request, "Oops, Error has encountered!")
+                return HttpResponseRedirect('.')
+
+        if "_send-id" in request.POST:
+            try:
+                _img_str = base64_encode(obj.id_card.open().read())
+                id_generated.delay(obj.id, _img_str)
+            except ValueError:
+                messages.error(request, "ID card doesn't exist.")
+                return HttpResponseRedirect('.')
+            self.message_user(request, 'Email is sent Successfully.')
+            return HttpResponseRedirect('.')
 
         return super().response_change(request, obj)
 
