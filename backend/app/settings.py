@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'eprofile.apps.EprofileConfig',
     'vote.apps.VoteConfig',
+    'candidate.apps.CandidateConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
