@@ -163,6 +163,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class PartyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
+    readonly_fields = ('vote_count',)
     fieldsets = (
         (None, {'fields': ('name', 'description', 'slogan', 'logo')}),
         (_('Election Info'), {
