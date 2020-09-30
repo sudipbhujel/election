@@ -4,15 +4,19 @@ from io import BytesIO
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.files.base import ContentFile
+from django.core.mail import message
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
 from ethereum.accounts import create_account
+from ethereum.manager import Manager
 from id.id import ID
 
 from .models import Candidate, FaceImage, Party, Profile, User
 from .tasks import id_generated
 from .utils import base64_encode
+
+from django.utils.safestring import mark_safe
 
 
 def image_content(image):
@@ -62,7 +66,7 @@ class FaceImageAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     change_form_template = "admin/eprofile/profile/change_form.html"
     date_hierarchy = ('date_submitted')
-    readonly_fields = ('date_submitted', 'date_edited', )
+    readonly_fields = ('date_submitted', 'date_edited', 'is_voter', 'is_voted')
     list_display = ('id', 'first_name', 'last_name', 'is_voter', 'is_voted')
     search_fields = ('first_name', 'last_name', 'municipality', 'tole')
     list_filter = ('is_voter', 'is_voted', 'gender')
@@ -128,10 +132,30 @@ class ProfileAdmin(admin.ModelAdmin):
                 _img_str = base64_encode(obj.id_card.open().read())
                 id_generated.delay(obj.id, _img_str)
             except ValueError:
-                messages.error(request, "ID card doesn't exist.")
+                messages.error(request, "Oops! ID card doesn't exist.")
+                return HttpResponseRedirect('.')
+            except FileNotFoundError:
+                messages.error(request, 'Oops! File not found.')
                 return HttpResponseRedirect('.')
             self.message_user(request, 'Email is sent Successfully.')
             return HttpResponseRedirect('.')
+
+        if "_add-to-eth-net" in request.POST:
+            manager = Manager()
+            receipt = manager.add_voter(obj.public_key)
+            tx_hash = receipt['transactionHash'].hex()
+            url = f'https://rinkeby.etherscan.io/tx/{tx_hash}'
+            if receipt['status']:
+                self.message_user(
+                    request, mark_safe(f'You successfully added this voter to eth-net.\
+                        Please, navigate to <a href={url}>{url}</a> for further information.'))
+                obj.is_voter = True
+                obj.save()
+                return HttpResponseRedirect('.')
+            else:
+                messages.error(request, mark_safe(f'Oops! your transaction is failed.\
+                    Please navigate to <a href={url}>{url}</a> for further information.'))
+                return HttpResponseRedirect('.')
 
         return super().response_change(request, obj)
 
@@ -149,6 +173,7 @@ class PartyAdmin(admin.ModelAdmin):
 
 
 class CandidateAdmin(admin.ModelAdmin):
+    change_form_template = "admin/candidates/change_form.html"
     list_display = ('id', 'full_name')
     list_filter = ('is_candidate',)
     fieldsets = (
@@ -158,9 +183,29 @@ class CandidateAdmin(admin.ModelAdmin):
         (_('Vote'), {
          'fields': ('vote_count',)}),
     )
+    readonly_fields = ('is_candidate', 'vote_count',)
 
     def full_name(self, obj):
         return f'{obj.profile.get_full_name}'
+
+    def response_change(self, request, obj):
+        if "_add-to-eth-net" in request.POST:
+            manager = Manager()
+            receipt = manager.add_candidate(obj.profile.public_key)
+            tx_hash = receipt['transactionHash'].hex()
+            url = f'https://rinkeby.etherscan.io/tx/{tx_hash}'
+            if receipt['status']:
+                self.message_user(
+                    request, mark_safe(f'You successfully added this candidate to eth-net.\
+                        Please, navigate to <a href={url}>{url}</a> for further information.'))
+                obj.is_candidate = True
+                obj.save()
+                return HttpResponseRedirect('.')
+            else:
+                messages.error(request, mark_safe(f'Oops! your transaction is failed.\
+                    Please navigate to <a href={url}>{url}</a> for further information'))
+                return HttpResponseRedirect('.')
+        return super().response_change(request, obj)
 
 
 admin.site.register(User, UserAdmin)

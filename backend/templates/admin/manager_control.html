@@ -1,0 +1,12 @@
+<div>
+    {% if message|length != 0 %}
+    {{ message }}
+    {% endif %}
+    <p>Manager address: {{ manager }}</p>
+    <p>State: {{ state }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Start Election" name="_start-election" />
+        <input type="submit" value="End Election" name="_end-election" />
+    </form>
+</div>

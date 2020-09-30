@@ -1,0 +1,10 @@
+{% extends 'admin/index.html' %}
+{% load manager_control %}
+
+{% block content %}
+<h1>Manager Control</h1>
+{% manager_control %}
+<br>
+<br>
+{{ block.super }}
+{% endblock %}
