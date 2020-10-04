@@ -271,7 +271,7 @@ class Candidate(models.Model):
                           primary_key=True, editable=False)
     profile = models.OneToOneField(
         Profile, on_delete=models.CASCADE, related_name='candidate')
-    party = models.OneToOneField(
+    party = models.ForeignKey(
         Party, on_delete=models.CASCADE, related_name='party')
     bio = models.TextField(_('bio'))
     plans = models.TextField(_('plans'))

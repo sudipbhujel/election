@@ -1,8 +1,5 @@
-from os import stat
-from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import views
-from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.renderers import (
@@ -24,6 +21,7 @@ class VoteView(views.APIView):
     """
     serializer_class = VoteSerializer
     renderer_classes = (JSONRenderer, BrowsableAPIRenderer)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, format=None):
         serializer = VoteSerializer(

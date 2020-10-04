@@ -14,3 +14,4 @@ def get_address(private_key):
     """
     account = w3.eth.account.privateKeyToAccount(private_key)
     return account.address
+    

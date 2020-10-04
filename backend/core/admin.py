@@ -4,7 +4,6 @@ from io import BytesIO
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.files.base import ContentFile
-from django.core.mail import message
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
@@ -175,7 +174,7 @@ class PartyAdmin(admin.ModelAdmin):
 
 class CandidateAdmin(admin.ModelAdmin):
     change_form_template = "admin/candidates/change_form.html"
-    list_display = ('id', 'full_name')
+    list_display = ('id', 'full_name', 'party_name')
     list_filter = ('is_candidate',)
     fieldsets = (
         (_('Personal Info'), {'fields': ('profile', 'party', 'bio', 'plans')}),
@@ -188,6 +187,9 @@ class CandidateAdmin(admin.ModelAdmin):
 
     def full_name(self, obj):
         return f'{obj.profile.get_full_name}'
+    
+    def party_name(self, obj):
+        return f'{obj.party.name}'
 
     def response_change(self, request, obj):
         if "_add-to-eth-net" in request.POST:
