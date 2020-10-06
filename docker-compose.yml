@@ -42,16 +42,30 @@ services:
             - redis
             - db
     
-    frontend:
+    # frontend:
+    #     build:
+    #         context: .
+    #         dockerfile: frontend.Dockerfile
+    #     ports:
+    #         - "3000:3000"
+    #     volumes: 
+    #         - frontend/node_modules
+    #         - ./frontend:/frontend
+    #     command: >
+    #         sh -c "yarn dev"
+    frontend-react:
         build:
             context: .
             dockerfile: frontend.Dockerfile
         ports:
             - "3000:3000"
+        stdin_open: true
         volumes: 
-            - frontend/node_modules
-            - ./frontend:/frontend
+            - frontend-react/node_modules
+            - ./frontend-react:/frontend-react
         command: >
-            sh -c "yarn dev"
+            sh -c "yarn start"
+
+
 volumes: 
     postgresql_data:

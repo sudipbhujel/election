@@ -30,12 +30,14 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
+
     'rest_framework',
     'rest_framework.authtoken',
     'core.apps.CoreConfig',
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -157,7 +160,8 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 # EMAIL_USE_TLS = True
@@ -165,3 +169,5 @@ SIMPLE_JWT = {
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'smtp.sudipbhujel@gmail.com'
 # EMAIL_HOST_PASSWORD = 'Sudip@123'
+
+CORS_ORIGIN_ALLOW_ALL = True
