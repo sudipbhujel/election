@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import app, { authSaga, candidateSaga } from './store';
+import app, { authSaga, candidateSaga, profileSaga } from './store';
 
 // create and configure reduxer middleware ( saga is a middleware )
 const sagaMiddleware = createSagaMiddleware();
@@ -20,6 +20,7 @@ const store = createStore(
 
 sagaMiddleware.run(candidateSaga);
 sagaMiddleware.run(authSaga);
+sagaMiddleware.run(profileSaga);
 
 ReactDOM.render(
   <Provider store={store}>

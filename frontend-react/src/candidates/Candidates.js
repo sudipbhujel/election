@@ -13,11 +13,18 @@ function Candidates() {
         getCandidates()
     }, [getCandidates]);
 
-    // console.log(candidates);
+    console.log(candidates);
     // console.log(errorMessage);
+
+    const CandidateList = () =>(
+        candidates.map(candidate => (<button>{candidate.id}</button>))
+    );
     
     return (
-        <div>Hello</div>
+        <div>
+            <h1>Candidate List</h1>
+            <CandidateList />
+        </div>
     )
 }
 
