@@ -13,7 +13,7 @@ function Profile() {
         getProfile();
     }, [getProfile]);
 
-    console.log(profile);
+    // console.log(profile);
     // console.log(errorMessage);
 
     return (

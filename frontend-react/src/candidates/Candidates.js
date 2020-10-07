@@ -17,7 +17,7 @@ function Candidates() {
     // console.log(errorMessage);
 
     const CandidateList = () =>(
-        candidates.map(candidate => (<button>{candidate.id}</button>))
+        candidates.map((candidate) => (<button key={candidate.id}>{candidate.id}</button>))
     );
     
     return (

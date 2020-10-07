@@ -1,4 +1,5 @@
 import axios, { baseURL } from './config';
+import history from '../history';
 
 const api = () => {
     axios.interceptors.response.use(
@@ -23,12 +24,17 @@ const api = () => {
                             refresh: refreshToken,
                         }),
                     })
-                        .then((res) => res.json())
+                        .then((res) => {
+                            if (res.ok) res.json();
+                            history.push('/login')
+                            return Promise.reject(error);
+                        })
                         .then((res) => {
                             localStorage.setItem('access_token', res.access);
                             originalRequest.headers['Authorization'] = `Bearer ${res.access}`;
                             return axios(originalRequest);
-                        });
+                        })
+                        .catch(error => Promise.reject(error))
                     resolve(response);
                 }
                 return Promise.reject(error);
