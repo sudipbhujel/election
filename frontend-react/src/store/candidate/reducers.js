@@ -2,7 +2,7 @@ import {
     LOAD_CANDIDATE,
     LOAD_CANDIDATE_SUCCESS,
     LOAD_CANDIDATE_ERROR
-} from './candidate.actions';
+} from './actions';
 
 let initState = {
     loading: false,

@@ -2,7 +2,7 @@ import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE
-} from './auth.actions';
+} from './actions';
 
 let initState = {
     loading: false,

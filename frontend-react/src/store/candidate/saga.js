@@ -3,8 +3,8 @@ import {
     LOAD_CANDIDATE,
     LOAD_CANDIDATE_SUCCESS,
     LOAD_CANDIDATE_ERROR
-} from './candidate.actions';
-import { loadCandidatesApi } from './candidate.api';
+} from './actions';
+import { loadCandidatesApi } from './api';
 
 export function* loadingCandidatesAsync() {
     try {
