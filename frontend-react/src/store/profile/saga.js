@@ -3,8 +3,8 @@ import {
     LOAD_PROFILE,
     LOAD_PROFILE_SUCCESS,
     LOAD_PROFILE_ERROR
-} from './profile.actions';
-import { loadProfileApi } from './profile.api';
+} from './actions';
+import { loadProfileApi } from './api';
 
 export function* loadingProfileAsync() {
     try {

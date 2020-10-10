@@ -3,8 +3,8 @@ import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE
-} from './auth.actions';
-import { addAuthTokenApi } from './auth.api';
+} from './actions';
+import { addAuthTokenApi } from './api';
 
 export function* addingAuthTokenAsync({ payload }) {
     try {

@@ -4,12 +4,17 @@ import React from 'react';
 import Candidates from './candidates/Candidates';
 import Login from './Login/Login';
 import Profile from './profile/Profile';
+<<<<<<< HEAD
 =======
 import Main from './pages/Main';
 >>>>>>> Stashed changes
+=======
+import Home from './pages/home';
+>>>>>>> origin/frontend
 
 export default function App() {
   return (
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 
     <div>
@@ -24,5 +29,14 @@ export default function App() {
 =======
     <Main />
 >>>>>>> Stashed changes
+=======
+    <Switch>
+      <Route exact path='/' component={Home} />
+      <Route path='/candidates' component={Candidates} />
+      <Route path='/login' component={Login} />
+      <Route path='/profile' component={Profile} />
+      <Redirect to='/' />
+    </Switch>
+>>>>>>> origin/frontend
   );
 }
