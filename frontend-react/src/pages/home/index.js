@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -32,17 +31,3 @@ export default function Home({ ...props }) {
     </>
   );
 }
-=======
-import React from 'react'
-
-function Home() {
-    return (
-        <div>
-            Home
-            <h1>Hello</h1>
-        </div>
-    )
-}
-
-export default Home
->>>>>>> origin/frontend
