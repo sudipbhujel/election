@@ -1,17 +1,17 @@
 from core.models import Candidate
 from rest_framework import generics, permissions
 
-from .serializers import CandidateSerializer
+from .serializers import CandidateSerializer, CandidateDetailSerializer
 
 
 class CandidateListView(generics.ListAPIView):
     serializer_class = CandidateSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     queryset = Candidate.objects.all()
 
 
 class CandidateDetailView(generics.RetrieveAPIView):
     lookup_field = "id"
-    serializer_class = CandidateSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = CandidateDetailSerializer
+    # permission_classes = (permissions.IsAuthenticated,)
     queryset = Candidate.objects.all()

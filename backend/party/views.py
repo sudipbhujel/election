@@ -9,7 +9,7 @@ class PartyListView(generics.ListAPIView):
     Party list view.
     """
     serializer_class = PartySerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     queryset = Party.objects.all()
 
 
@@ -19,5 +19,5 @@ class PartyDetailView(generics.RetrieveAPIView):
     """
     lookup_field = 'id'
     serializer_class = PartySerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     queryset = Party.objects.all()
