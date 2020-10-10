@@ -1,13 +1,16 @@
 import React from 'react';
 
+<<<<<<< Updated upstream
 import Candidates from './candidates/Candidates';
 import Login from './Login/Login';
 import Profile from './profile/Profile';
+=======
+import Main from './pages/Main';
+>>>>>>> Stashed changes
 
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-
-function App() {
+export default function App() {
   return (
+<<<<<<< Updated upstream
 
     <div>
       <h1>Base Page</h1>
@@ -18,7 +21,8 @@ function App() {
         <Redirect to='/'/>
       </Switch>
     </div>
+=======
+    <Main />
+>>>>>>> Stashed changes
   );
 }
-
-export default withRouter(App);

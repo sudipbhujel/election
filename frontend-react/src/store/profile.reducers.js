@@ -8,6 +8,7 @@ let initState = {
     loading: false,
     data: [],
     error: void 0,
+    isAuthenticated: false,
 };
 
 export const profileReducer = (state = initState, action) => {
@@ -15,7 +16,7 @@ export const profileReducer = (state = initState, action) => {
         case LOAD_PROFILE:
             return { ...state, loading: true, error: '' };
         case LOAD_PROFILE_SUCCESS:
-            return { ...state, loading: false, data: action.payload };
+            return { ...state, loading: false, isAuthenticated:true, data: action.payload };
         case LOAD_PROFILE_ERROR:
             return { ...state, loading: false, error: action.payload };
 

@@ -1,5 +1,5 @@
 import axios, { baseURL } from './config';
-import history from '../history';
+// import history from '../history';
 
 const api = () => {
     axios.interceptors.response.use(
@@ -26,7 +26,7 @@ const api = () => {
                     })
                         .then((res) => {
                             if (res.ok) res.json();
-                            history.push('/login')
+                            // history.push('/login')
                             return Promise.reject(error);
                         })
                         .then((res) => {
