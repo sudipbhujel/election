@@ -25,7 +25,7 @@ const api = () => {
                         }),
                     })
                         .then((res) => {
-                            if (res.ok) res.json();
+                            if (res.ok) return res.json();
                             // history.push('/login')
                             return Promise.reject(error);
                         })

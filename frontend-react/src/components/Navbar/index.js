@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaUserAlt } from "react-icons/fa";
 import { Button } from "../../globalStyles";
 import {
   Nav,
@@ -29,8 +29,6 @@ export default function Navbar({ isAuthenticated, profile }) {
       setButton(true);
     }
   };
-
-  console.log(isAuthenticated, profile);
 
   useEffect(() => {
     showButton();
@@ -66,8 +64,12 @@ export default function Navbar({ isAuthenticated, profile }) {
           </NavItem>
           <NavItemBtn>
             {isAuthenticated ? (
-              <p>Yes</p>
-            ) : (<>
+              <p>
+                <FaUserAlt /> &nbsp;
+                {profile.first_name} {profile.last_name}
+              </p>
+            ) : (
+              <>
                 {button ? (
                   <NavBtnLink to="/login">
                     <Button primary>Login</Button>
@@ -79,7 +81,7 @@ export default function Navbar({ isAuthenticated, profile }) {
                     </Button>
                   </NavBtnLink>
                 )}
-                </>
+              </>
             )}
           </NavItemBtn>
         </NavMenu>
