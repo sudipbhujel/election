@@ -1,9 +1,9 @@
-import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
-import { Container } from '../../../globalStyles';
+import styled from "styled-components/macro";
+import { Link } from "react-router-dom";
+import { Container } from "../../../globalStyles";
 
 export const Nav = styled.nav`
-//   background: #101522;
+  background: #f4f4f4;
   height: 80px;
   display: flex;
   justify-content: center;
@@ -54,13 +54,14 @@ export const NavMenu = styled.ul`
   list-style: none;
   text-align: center;
   @media screen and (max-width: 960px) {
+    background: #f4f4f4;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 90vh;
     position: absolute;
     top: 80px;
-    left: ${({ click }) => (click ? 0 : '-100%')};
+    left: ${({ click }) => (click ? 0 : "-100%")};
     opacity: 1;
     transition: all 0.5s ease;
   }
@@ -122,4 +123,9 @@ export const NavBtnLink = styled(Link)`
   width: 100%;
   border: none;
   outline: none;
+`;
+
+export const ProfileLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
 `;

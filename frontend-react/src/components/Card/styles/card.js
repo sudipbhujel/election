@@ -14,7 +14,7 @@ export const Container = styled.div`
 
 export const Banner = styled.div`
   position: absolute;
-  background-image: url(${({src})=>src});
+  background-image: url(${({ src }) => src});
   height: 10rem;
   width: 100%;
   background-position: center;
@@ -36,7 +36,7 @@ export const Title = styled.h1`
 export const SubTitle = styled.h2`
   color: #373a40;
   margin-top: 5px;
-  font-size: 0.80rem;
+  font-size: 0.8rem;
 `;
 
 export const Description = styled.p`
@@ -52,6 +52,7 @@ export const Button = styled.button`
   color: white;
   padding: 1rem;
   background-color: #651fff;
+  cursor: pointer;
 `;
 
 export const Group = styled.div`

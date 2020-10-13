@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaUserAlt } from "react-icons/fa";
 import { Button } from "../../globalStyles";
 import {
@@ -12,6 +13,7 @@ import {
   NavItemBtn,
   NavLinks,
   NavBtnLink,
+  ProfileLink,
 } from "./styles/navbar";
 import logo from "../assets/logo.png";
 
@@ -64,10 +66,10 @@ export default function Navbar({ isAuthenticated, profile }) {
           </NavItem>
           <NavItemBtn>
             {isAuthenticated ? (
-              <p>
+              <ProfileLink to="/profile">
                 <FaUserAlt /> &nbsp;
                 {profile.first_name} {profile.last_name}
-              </p>
+              </ProfileLink>
             ) : (
               <>
                 {button ? (
