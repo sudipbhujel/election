@@ -75,6 +75,7 @@ class ProfileAdmin(admin.ModelAdmin):
                                          'citizenship_issued_district',
                                          'citizenship')}),
         (_('Images'), {'fields': ('image', 'id_card')}),
+        (_('Parents'), {'fields': ('father_name', 'mother_name')}),
         (_('Address info'), {
          'fields': (('province', 'district'), ('municipality', 'ward'),
                     'tole')}),
@@ -187,7 +188,7 @@ class CandidateAdmin(admin.ModelAdmin):
 
     def full_name(self, obj):
         return f'{obj.profile.get_full_name}'
-    
+
     def party_name(self, obj):
         return f'{obj.party.name}'
 
