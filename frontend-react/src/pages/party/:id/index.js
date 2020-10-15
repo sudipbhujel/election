@@ -1,5 +1,9 @@
 import React from "react";
+import createDOMPurify from "dompurify";
+
 import { Container } from "../../../globalStyles";
+
+const DOMPurify = createDOMPurify(window);
 
 export default function PartyDetail({ party, isLoading, error }) {
   console.log(isLoading);
@@ -14,10 +18,10 @@ export default function PartyDetail({ party, isLoading, error }) {
             {party.id}
           </p>
           <p>{party.name}</p>
-          <p>{party.description}</p>
-          <p>{party.slogan}</p>
-          <p>{party.manifesto}</p>
-          <p>{party.plans}</p>
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(party.description) }} />
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(party.slogan) }} />
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(party.manifesto) }} />
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(party.plans) }} />
         </>
       )}
     </Container>

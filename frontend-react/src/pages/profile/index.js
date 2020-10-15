@@ -35,7 +35,7 @@ export default function ProfilePage({ profile }) {
             </Profile.Name>
             <Profile.Id>Voter ID: {profile.id}</Profile.Id>
           </Profile.Info>
-          <Profile.LoginInfo>3 min ago</Profile.LoginInfo>
+          <Profile.LoginInfo>{profile.last_login}</Profile.LoginInfo>
           <Profile.Edit>
             <Link to="/profile/edit">
               <Profile.Button>Edit Profile</Profile.Button>
