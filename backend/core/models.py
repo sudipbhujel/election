@@ -1,6 +1,7 @@
 import os
 import uuid
 
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.contrib.humanize.templatetags.humanize import naturaltime
@@ -244,12 +245,12 @@ class Party(models.Model):
     id = models.UUIDField(_('id'), default=uuid.uuid4,
                           primary_key=True, editable=False)
     name = models.CharField(_('name'), max_length=25)
-    description = models.TextField(_('description'))
-    slogan = models.TextField(_('slogan'))
+    description = RichTextField(_('description'))
+    slogan = RichTextField(_('slogan'))
     logo = models.ImageField(
         _('logo'), upload_to=party_logo_image_file_path)
-    manifesto = models.TextField(_('manifesto'))
-    plans = models.TextField(_('plans'))
+    manifesto = RichTextField(_('manifesto'))
+    plans = RichTextField(_('plans'))
 
     vote_count = models.IntegerField(_('vote count'), default=0,
                                      validators=[MinValueValidator(0)])
@@ -279,8 +280,8 @@ class Candidate(models.Model):
         Profile, on_delete=models.CASCADE, related_name='candidate')
     party = models.ForeignKey(
         Party, on_delete=models.CASCADE, related_name='party')
-    bio = models.TextField(_('bio'))
-    plans = models.TextField(_('plans'))
+    bio = RichTextField(_('bio'))
+    plans = RichTextField(_('plans'))
 
     # Role
     is_candidate = models.BooleanField(_('candidate'),

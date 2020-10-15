@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -161,7 +163,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 # EMAIL_USE_TLS = True
@@ -171,3 +173,5 @@ SIMPLE_JWT = {
 # EMAIL_HOST_PASSWORD = 'Sudip@123'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CKEDITOR_UPLOAD_PATH = "media/uploads/ckeditor"
