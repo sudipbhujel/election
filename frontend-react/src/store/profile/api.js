@@ -15,3 +15,10 @@ export const addProfileApi = async (profile) => {
   });
   return parseItem(response, 201);
 };
+
+export const editProfileApi = async (profile) => {
+  const response = await api.patch("/api/profile/me/", profile, {
+    headers: authHeader(),
+  });
+  return parseItem(response, 200);
+};

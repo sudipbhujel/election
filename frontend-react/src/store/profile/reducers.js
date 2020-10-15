@@ -5,6 +5,9 @@ import {
   ADD_PROFILE,
   ADD_PROFILE_SUCCESS,
   ADD_PROFILE_ERROR,
+  EDIT_PROFILE,
+  EDIT_PROFILE_SUCCESS,
+  EDIT_PROFILE_ERROR,
 } from "./actions";
 
 let initState = {
@@ -36,6 +39,16 @@ export const profileReducer = (state = initState, action) => {
         data: action.payload,
       };
     case ADD_PROFILE_ERROR:
+      return { ...state, loading: false, error: action.payload };
+    case EDIT_PROFILE:
+      return { ...state, loading: true, error: "" };
+    case EDIT_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
+    case EDIT_PROFILE_ERROR:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

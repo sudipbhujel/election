@@ -6,8 +6,11 @@ import {
   ADD_PROFILE,
   ADD_PROFILE_SUCCESS,
   ADD_PROFILE_ERROR,
+  EDIT_PROFILE,
+  EDIT_PROFILE_SUCCESS,
+  EDIT_PROFILE_ERROR,
 } from "./actions";
-import { loadProfileApi, addProfileApi } from "./api";
+import { loadProfileApi, addProfileApi, editProfileApi } from "./api";
 
 export function* loadingProfileAsync() {
   try {
@@ -38,6 +41,25 @@ export function* watchAddingProductAsync() {
   yield takeEvery(ADD_PROFILE, addingProfileAsync);
 }
 
+export function* editProfileAsync({ payload }) {
+  try {
+    const data = yield call(editProfileApi, payload);
+    const editedProfile = data;
+
+    yield put({ type: EDIT_PROFILE_SUCCESS, payload: editedProfile });
+  } catch (err) {
+    yield put({ type: EDIT_PROFILE_ERROR, payload: err.message });
+  }
+}
+
+export function* watchEditingProductAsync() {
+  yield takeEvery(EDIT_PROFILE, editProfileAsync);
+}
+
 export function* profileSaga() {
-  yield all([watchloadingProfileAsync(), watchAddingProductAsync()]);
+  yield all([
+    watchloadingProfileAsync(),
+    watchAddingProductAsync(),
+    watchEditingProductAsync(),
+  ]);
 }

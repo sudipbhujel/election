@@ -84,6 +84,7 @@ export const Button = styled.button`
   white-space: nowrap;
   border: none;
   outline: none;
+  cursor: pointer;
 
   &:hover {
     transition: all 0.3s ease-out;

@@ -1,7 +1,11 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { loadProfileAction, addProfileAction } from "../store";
+import {
+  loadProfileAction,
+  addProfileAction,
+  editProfileAction,
+} from "../store";
 
 function useProfile() {
   const dispatch = useDispatch();
@@ -13,6 +17,7 @@ function useProfile() {
     getProfile: useCallback(() => dispatch(loadProfileAction()), [dispatch]),
 
     addProfile: (profile) => dispatch(addProfileAction(profile)),
+    editProfile: (profile) => dispatch(editProfileAction(profile)),
   };
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {
   FaBirthdayCake,
@@ -36,7 +37,9 @@ export default function ProfilePage({ profile }) {
           </Profile.Info>
           <Profile.LoginInfo>3 min ago</Profile.LoginInfo>
           <Profile.Edit>
-            <Profile.Button>Edit Profile</Profile.Button>
+            <Link to="/profile/edit">
+              <Profile.Button>Edit Profile</Profile.Button>
+            </Link>
           </Profile.Edit>
         </Profile.Header>
         <Navbar>
