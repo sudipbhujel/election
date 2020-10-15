@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Candidates from "../candidates/Candidates";
 import Navbar from "../components/Navbar";
 import About from "./about";
+import FillFormPage from "./election/fill";
 import Home from "./home";
 import Login from "./login";
 import Party from "./party";
@@ -19,6 +20,7 @@ export default function Main() {
     getProfile,
     profile,
     error: errProfile,
+    addProfile,
   } = useProfile();
 
   const { candidates, error: errCandidates, getCandidates } = useCandidates();
@@ -61,6 +63,8 @@ export default function Main() {
     />
   );
 
+  const FillForm = () => <FillFormPage addProfile={addProfile} />;
+
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
   };
@@ -76,6 +80,7 @@ export default function Main() {
         <Route path="/candidates" component={CandidateComponent} />
         <Route path="/login" component={Login} />
         <Route path="/profile" component={Profile} />
+        <Route path="/election/fill_form" component={FillForm} />
         <Route component={NoMatchPage} />
       </Switch>
     </>

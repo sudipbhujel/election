@@ -1,6 +1,15 @@
 import React from "react";
 
-import { Container, Field, Label, Input, Header } from "./styles/form";
+import {
+  Container,
+  Header,
+  Group,
+  Row,
+  Input,
+  Icon,
+  Subheader,
+  Select,
+} from "./styles/form";
 
 export default function Form({ children, ...restProps }) {
   return <form {...restProps}>{children}</form>;
@@ -14,14 +23,26 @@ Form.Header = function FormHeader({ children, ...restProps }) {
   return <Header {...restProps}>{children}</Header>;
 };
 
-Form.Field = function FormField({ children, ...restProps }) {
-  return <Field {...restProps}>{children}</Field>;
+Form.Subheader = function FormSubheader({ children, ...restProps }) {
+  return <Subheader {...restProps}>{children}</Subheader>;
 };
 
-Form.Label = function FormLabel({ children, ...restProps }) {
-  return <Label {...restProps}>{children}</Label>;
+Form.Group = function FormGroup({ children, ...restProps }) {
+  return <Group {...restProps}>{children}</Group>;
+};
+
+Form.Row = function FormRow({ children, ...restProps }) {
+  return <Row {...restProps}>{children}</Row>;
 };
 
 Form.Input = function FormInput({ children, ...restProps }) {
   return <Input {...restProps}>{children}</Input>;
+};
+
+Form.Select = function FormSelect({ children, ...restProps }) {
+  return <Select {...restProps}>{children}</Select>;
+};
+
+Form.Icon = function FormIcon({ children, ...restProps }) {
+  return <Icon {...restProps}>{children}</Icon>;
 };

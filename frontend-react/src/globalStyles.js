@@ -38,9 +38,9 @@ export const Button = styled.button`
     background: #fff;
     background-color: ${({ primary }) => (primary ? "#0467FB" : "#4B59F7")};
   }
-  @media screen and (max-width: 960px) {
-    width: 100%;
-  }
+  // @media screen and (max-width: 960px) {
+  //   width: 100%;
+  // }
 `;
 
 export default GlobalStyles;

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import { FaUser, FaKey, FaFileImage } from "react-icons/fa";
+
 import { Container, Button } from "../../globalStyles";
 import Form from "../../components/Form";
 import useAuths from "./useAuths";
@@ -23,32 +26,44 @@ export default function Login() {
       <Form>
         <Form.Container width="30rem">
           <Form.Header>Login</Form.Header>
-          <Form.Field>
-            <Form.Label>Citizenship Number</Form.Label>
+          <Form.Row>
             <Form.Input
               type="text"
               value={cit}
               onChange={(e) => setCit(e.target.value)}
               placeholder="Citizenship Number"
             />
-          </Form.Field>
-          <Form.Field>
-            <Form.Label>Password</Form.Label>
+            <Form.Icon>
+              <FaUser />
+            </Form.Icon>
+          </Form.Row>
+          <Form.Row>
             <Form.Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
-          </Form.Field>
-          <Form.Field>
-            <Form.Label>Face</Form.Label>
+            <Form.Icon>
+              <FaKey />
+            </Form.Icon>
+          </Form.Row>
+          <Form.Row>
             <Form.Input
               type="file"
               onChange={(e) => setFile(e.target.files[0])}
             />
-          </Form.Field>
-          <Button onClick={(event) => handleClick(event)}>Login</Button>
+            <Form.Icon>
+              <FaFileImage />
+            </Form.Icon>
+          </Form.Row>
+          <Button
+            primary
+            style={{ display: " block", margin: "0 auto" }}
+            onClick={(event) => handleClick(event)}
+          >
+            Login
+          </Button>
         </Form.Container>
       </Form>
     </Container>
