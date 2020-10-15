@@ -30,11 +30,15 @@ class ManageProfileSerializer(serializers.ModelSerializer):
     """
     Serializes Profile model and update.
     """
+    last_login = serializers.CharField(
+        source='user.last_login_humanize', read_only=True)
+
     class Meta:
         model = Profile
         fields = ('id', 'public_key', 'first_name', 'last_name',
                   'image', 'gender', 'dob', 'father_name',
                   'mother_name', 'citizenship_issued_district',
                   'citizenship', 'is_voted', 'is_voter', 'province',
-                  'district', 'municipality', 'ward', 'tole',)
-        read_only_fields = ('id', 'public_key', 'is_voted', 'is_voter',)
+                  'district', 'municipality', 'ward', 'tole', 'last_login')
+        read_only_fields = ('id', 'public_key', 'is_voted',
+                            'is_voter', 'last_login',)

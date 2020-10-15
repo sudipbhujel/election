@@ -3,11 +3,12 @@ import uuid
 
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
+from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.core.validators import MinValueValidator
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.template.defaultfilters import slugify
-from django.core.validators import MinValueValidator
 
 from .choices import DISTRICT_CHOICES, GENDER_CHOICES, PROVINCE_CHOICES
 
@@ -42,6 +43,7 @@ def user_profile_image_file_path(instance, filename):
 
     return os.path.join('uploads/user/', str(instance.user),
                         'profile', filename)
+
 
 def user_profile_id_card_file_path(instance, filename):
     """
@@ -143,6 +145,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return str(self.citizenship_number)
+
+    @property
+    def last_login_humanize(self):
+        return naturaltime(self.last_login)
 
 
 class FaceImage(models.Model):
