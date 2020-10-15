@@ -89,3 +89,9 @@ export const Select = styled.select`
     border-right: 2px solid #7ed321;
   }
 `;
+
+export const Image = styled.img`
+  width: 98%;
+  height: auto;
+  padding-right: 10px;
+`;

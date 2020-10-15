@@ -9,6 +9,7 @@ import {
   Icon,
   Subheader,
   Select,
+  Image,
 } from "./styles/form";
 
 export default function Form({ children, ...restProps }) {
@@ -45,4 +46,8 @@ Form.Select = function FormSelect({ children, ...restProps }) {
 
 Form.Icon = function FormIcon({ children, ...restProps }) {
   return <Icon {...restProps}>{children}</Icon>;
+};
+
+Form.Image = function FormImage({ children, ...restProps }) {
+  return <Image {...restProps}>{children}</Image>;
 };

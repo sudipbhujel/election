@@ -31,6 +31,26 @@ export default function FillFormPage({ addProfile }) {
   const [ward, setWard] = useState("");
   const [tole, setTole] = useState("");
 
+  const onCitizenshipImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setCitizenshipimage(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
+  const onProfileImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileimage(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
   const handleClick = (event) => {
     event.preventDefault();
     console.log(
@@ -64,7 +84,7 @@ export default function FillFormPage({ addProfile }) {
     data.append("municipality", municipality);
     data.append("ward", ward);
     data.append("tole", tole);
-    addProfile(data);
+    // addProfile(data);
   };
   return (
     <Container>
@@ -187,9 +207,10 @@ export default function FillFormPage({ addProfile }) {
             <Form.Row>
               <Form.Input
                 type="file"
-                onChange={(e) => setCitizenshipimage(e.target.files[0])}
+                onChange={onCitizenshipImageChange}
                 placeholder="Citizenship Image"
               />
+              <Form.Image src={citizenshipImage} />
               <Form.Icon>
                 <FaFileImage />
               </Form.Icon>
@@ -205,9 +226,10 @@ export default function FillFormPage({ addProfile }) {
             <Form.Row>
               <Form.Input
                 type="file"
-                onChange={(e) => setProfileimage(e.target.files[0])}
-                placeholder="Citizenship Image"
+                onChange={onProfileImageChange}
+                placeholder="Profile Image"
               />
+              <Form.Image src={profileImage} />
               <Form.Icon>
                 <FaFileImage />
               </Form.Icon>
