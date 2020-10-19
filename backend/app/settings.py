@@ -175,3 +175,22 @@ SIMPLE_JWT = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 CKEDITOR_UPLOAD_PATH = "media/uploads/ckeditor"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Styles', 'Format', 'Font', 'FontSize'],
+            ['Format'],
+            ['Undo', 'Redo'],
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Image', 'Table', 'HorizontalRule'],
+            ['TextColor', 'BGColor'],
+            ['SpecialChar',],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+            ['Maximize',]
+        ]
+    }
+}
