@@ -1,4 +1,5 @@
 import React from "react";
+import { MdError } from "react-icons/md";
 
 import {
   Container,
@@ -10,6 +11,7 @@ import {
   Subheader,
   Select,
   Image,
+  FieldError
 } from "./styles/form";
 
 export default function Form({ children, ...restProps }) {
@@ -36,8 +38,8 @@ Form.Row = function FormRow({ children, ...restProps }) {
   return <Row {...restProps}>{children}</Row>;
 };
 
-Form.Input = function FormInput({ children, ...restProps }) {
-  return <Input {...restProps}>{children}</Input>;
+Form.Input = function FormInput({ ...restProps }) {
+  return <Input {...restProps} />;
 };
 
 Form.Select = function FormSelect({ children, ...restProps }) {
@@ -50,4 +52,8 @@ Form.Icon = function FormIcon({ children, ...restProps }) {
 
 Form.Image = function FormImage({ children, ...restProps }) {
   return <Image {...restProps}>{children}</Image>;
+};
+
+Form.FieldError = function FormFieldError({ children, ...restProps }) {
+  return <FieldError {...restProps}>&nbsp;&nbsp;<MdError />{children}</FieldError>;
 };

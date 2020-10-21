@@ -10,6 +10,9 @@ const api = () => {
       return new Promise((resolve) => {
         const originalRequest = error.config;
         const refreshToken = localStorage.getItem("refresh_token");
+        if (!refreshToken) {
+          throw error;
+        }
         if (
           error.response &&
           error.response.status === 401 &&
@@ -31,7 +34,7 @@ const api = () => {
             .then((res) => {
               if (res.ok) return res.json();
               // history.push('/login')
-              return Promise.reject(error);
+              throw error;
             })
             .then((res) => {
               localStorage.setItem("access_token", res.access);

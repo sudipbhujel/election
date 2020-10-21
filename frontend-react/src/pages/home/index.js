@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 
-import useProfile from "../useProfile";
-import { Container, Button } from "../../globalStyles";
+import { Container } from "../../globalStyles";
 import Card from "../../components/Card";
-import Form from "../../components/Form";
 
-export default function Home({ ...props }) {
+function Home({ ...props }) {
   // console.log(props)
   return (
     <Container>
@@ -27,3 +24,5 @@ export default function Home({ ...props }) {
     </Container>
   );
 }
+
+export default Home;

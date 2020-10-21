@@ -41,6 +41,7 @@ export const Name = styled.h4`
   font-weight: 550;
   padding: 4px 0;
   display: flex;
+  margin: 0;
 
   @media (max-width: 576px) {
     display: block;
@@ -50,6 +51,7 @@ export const Name = styled.h4`
 export const Id = styled.h5`
   color: #787e94;
   padding: 2px 0;
+  margin: 0;
   font-weight: normal;
   font-size: 15px;
 `;
@@ -138,8 +140,8 @@ export const Detail = styled.section`
 `;
 
 export const Heading = styled.h4`
-  line-height: 1.5;
-  padding: 15px 30px;
+  // line-height: 1.5;
+  padding: 5px 30px;
 `;
 
 export const PersonalInfo = styled.div`

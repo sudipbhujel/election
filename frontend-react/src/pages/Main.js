@@ -7,6 +7,7 @@ import About from "./about";
 import FillFormPage from "./election/fill";
 import Home from "./home";
 import Login from "./login";
+import Logout from "./logout";
 import Party from "./party";
 import PartyDetail from "./party/:id";
 import ProfilePage from "./profile";
@@ -71,6 +72,8 @@ export default function Main() {
     <ProfileEdit profile={profile} editProfile={editProfile} />
   );
 
+  const LoginPage = () => <Login isAuthenticated={isAuthenticated} />;
+
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
   };
@@ -84,12 +87,66 @@ export default function Main() {
         <Route path="/parties" component={PartyPage} />
         <Route path="/party/:partyId" component={PartyWithId} />
         <Route path="/candidates" component={CandidateComponent} />
-        <Route path="/login" component={Login} />
-        <Route exact path="/profile" component={Profile} />
-        <Route path="/profile/edit" component={ProfileEditPage} />
-        <Route path="/election/fill_form" component={FillForm} />
-        <Route component={NoMatchPage} />
+        <Route
+          isAuthenticated={isAuthenticated}
+          restricted
+          path="/login"
+          component={LoginPage}
+        />
+        <Route
+          isAuthenticated={isAuthenticated}
+          exact
+          path="/profile"
+          component={Profile}
+        />
+        <Route
+          // exact
+          isAuthenticated={isAuthenticated}
+          path="/profile/edit"
+          component={ProfileEditPage}
+        />
+        <Route
+          isAuthenticated={isAuthenticated}
+          path="/election/fill_form"
+          component={FillForm}
+        />
+        <Route
+          isAuthenticated={isAuthenticated}
+          path="/logout"
+          component={Logout}
+        />
+        <Route path="*" component={NoMatchPage} />
       </Switch>
     </>
   );
 }
+
+// const PrivateRoute = ({ component: Component, ...restProps }) => (
+//   <Route
+//     {...restProps}
+//     render={(props) =>
+//       restProps.isAuthenticated ? (
+//         <Component {...props} />
+//       ) : (
+//         <Redirect to="/login" />
+//       )
+//     }
+//   />
+// );
+
+// const PublicRoute = ({ component: Component, ...restProps }) => {
+//   const isAuthenticated = restProps.isAuthenticated;
+//   const restricted = restProps.restricted;
+//   return (
+//     <Route
+//       {...restProps}
+//       render={(props) =>
+//         isAuthenticated && restricted ? (
+//           <Redirect to="/" />
+//         ) : (
+//           <Component {...props} />
+//         )
+//       }
+//     />
+//   );
+// };

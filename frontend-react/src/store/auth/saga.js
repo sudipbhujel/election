@@ -1,8 +1,10 @@
-import { put, takeEvery, call, all } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call, all } from 'redux-saga/effects';
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-    LOGIN_FAILURE
+    LOGIN_FAILURE,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
 } from './actions';
 import { addAuthTokenApi } from './api';
 
@@ -15,15 +17,25 @@ export function* addingAuthTokenAsync({ payload }) {
         }
         yield put({ type: LOGIN_SUCCESS, payload: data });
     } catch (err) {
-        console.log('Error occured');
+        console.log(err.message);
         yield put({ type: LOGIN_FAILURE, payload: err.message });
     }
 }
 
 export function* watchAddingAuthTokenAsync() {
-    yield takeEvery(LOGIN_REQUEST, addingAuthTokenAsync);
+    yield takeLatest(LOGIN_REQUEST, addingAuthTokenAsync);
+}
+
+export function* removingAuthTokenAsync() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    yield put({ type: LOGOUT_SUCCESS });
+}
+
+export function* watchRemovingAuthTokenAsync() {
+    yield takeEvery(LOGOUT_REQUEST, removingAuthTokenAsync);
 }
 
 export function* authSaga() {
-    yield all([watchAddingAuthTokenAsync()]);
+    yield all([watchAddingAuthTokenAsync(), watchRemovingAuthTokenAsync()]);
 }

@@ -14,7 +14,7 @@ import app, {
   profileSaga,
 } from "./store";
 
-import history from "./history";
+// import history from "./history";
 import GlobalStyles from "./globalStyles";
 
 // create and configure reduxer middleware ( saga is a middleware )
@@ -34,7 +34,7 @@ sagaMiddleware.run(partiesSaga);
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Router history={history}>
+      <Router>
         <GlobalStyles />
         <App />
       </Router>

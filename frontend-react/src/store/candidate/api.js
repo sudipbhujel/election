@@ -1,4 +1,4 @@
-import api from '../config.auth';
+import api from '../config';
 import { parseList } from '../action-utils';
 
 export const loadCandidatesApi = async () => {

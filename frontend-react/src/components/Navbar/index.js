@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaUserAlt } from "react-icons/fa";
+
 import { Button } from "../../globalStyles";
 import {
   Nav,
@@ -85,6 +85,13 @@ export default function Navbar({ isAuthenticated, profile }) {
                 )}
               </>
             )}
+          </NavItemBtn>
+          <NavItemBtn>
+            {isAuthenticated ? (
+              <NavBtnLink to="/logout">
+                <Button primary>Logout</Button>
+              </NavBtnLink>
+            ) : null}
           </NavItemBtn>
         </NavMenu>
       </NavbarContainer>

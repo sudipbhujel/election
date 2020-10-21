@@ -48,6 +48,7 @@ export const Input = styled.input`
   width: 100%;
   padding: 1em 0 1em 3.5em;
   border: 1px solid #e5e5e5;
+  border-color: ${({validationFailed})=> validationFailed ? "red" : "e5e5e5"};
   border-radius: 3px;
   -webkit-transition: 0.35s ease-in-out;
   -moz-transition: 0.35s ease-in-out;
@@ -95,3 +96,14 @@ export const Image = styled.img`
   height: auto;
   padding-right: 10px;
 `;
+
+export const FieldError = styled.span`
+  display: flex;
+  color: red;
+  margin: 10px 0;
+
+  &:focus + ${Input} {
+    outline: 0;
+    border-color: red;
+  }
+`
