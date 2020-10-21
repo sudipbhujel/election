@@ -5,7 +5,6 @@ import {
   FaFemale,
   FaBirthdayCake,
   FaTransgender,
-  FaFileImage,
   FaLocationArrow,
   FaSearchLocation,
 } from "react-icons/fa";

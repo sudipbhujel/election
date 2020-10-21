@@ -5,7 +5,7 @@ import useLogout from "./useLogout";
 import { Button } from "../../globalStyles";
 
 export default function Logout() {
-  const { error, removeAuthToken } = useLogout();
+  const { removeAuthToken } = useLogout();
   const handleClick = (e) => {
     e.preventDefault();
     removeAuthToken();

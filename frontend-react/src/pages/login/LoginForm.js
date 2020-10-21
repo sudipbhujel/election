@@ -40,14 +40,6 @@ const validate = (values) => {
   return errors;
 };
 
-const warn = (values) => {
-  const warnings = {};
-  if (values.age < 19) {
-    warnings.age = "Hmm, you seem a bit young...";
-  }
-  return warnings;
-};
-
 export default function LoginForm() {
   const nextButton = useRef(null);
   const video = useRef(null);
@@ -58,7 +50,7 @@ export default function LoginForm() {
   const [context, setContext] = useState(null);
   const [image, setImage] = useState(null);
 
-  const { addAuthToken, user, error: errorMessage } = useAuths();
+  const { addAuthToken } = useAuths();
 
   const next = (e) => {
     e.preventDefault();

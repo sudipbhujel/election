@@ -26,7 +26,7 @@ export default function Main() {
     editProfile,
   } = useProfile();
 
-  const { candidates, error: errCandidates, getCandidates } = useCandidates();
+  const { candidates, getCandidates } = useCandidates();
 
   useEffect(() => {
     getProfile();
@@ -60,7 +60,7 @@ export default function Main() {
 
   const PartyWithId = ({ match }) => (
     <PartyDetail
-      party={parties.filter((party) => party.id == match.params.partyId)[0]}
+      party={parties.filter((party) => party.id === match.params.partyId)[0]}
       isLoading={partyLoading}
       error={errParties}
     />

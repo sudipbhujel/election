@@ -1,6 +1,6 @@
 import React from "react";
 
-import { WebcamContainer, Video, Canvas, Image } from "./styles/webcam";
+import { WebcamContainer, Image } from "./styles/webcam";
 
 export default function Webcam({ children, ...restProps }) {
   return <WebcamContainer {...restProps}>{children}</WebcamContainer>;
