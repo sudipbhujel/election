@@ -124,6 +124,17 @@ export default function LoginForm() {
     return new Blob([ia], { type: mimeString });
   }
 
+  function stopStreamedVideo(videoElem) {
+    const stream = videoElem.srcObject;
+    const tracks = stream.getTracks();
+  
+    tracks.forEach(function(track) {
+      track.stop();
+    });
+  
+    videoElem.srcObject = null;
+  }
+
   const onSubmit = (values) => {
     let file = dataURItoBlob(image);
     const data = new FormData();
@@ -136,6 +147,7 @@ export default function LoginForm() {
     } catch (err) {
       console.log(err);
     }
+    stopStreamedVideo(video.current)
   };
 
   return (
