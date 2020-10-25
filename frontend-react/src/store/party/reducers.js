@@ -5,7 +5,7 @@ import {
 } from "./actions";
 
 let initState = {
-  loading: true,
+  loading: false,
   data: [],
   error: void 0,
 };

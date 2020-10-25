@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 
 import Candidates from "../candidates/Candidates";
@@ -16,7 +17,10 @@ import useCandidates from "./useCandidates";
 import useParties from "./useParties";
 import useProfile from "./useProfile";
 
-export default function Main() {
+
+import {refreshTokenApi, requestRefreshTokenAction} from "../store"
+
+function Main(props) {
   const {
     isAuthenticated,
     getProfile,
@@ -27,6 +31,10 @@ export default function Main() {
   } = useProfile();
 
   const { candidates, getCandidates } = useCandidates();
+
+  useEffect(() => {
+    props.refreshToken();
+  }, []);
 
   useEffect(() => {
     getProfile();
@@ -72,7 +80,7 @@ export default function Main() {
     <ProfileEdit profile={profile} editProfile={editProfile} />
   );
 
-  const LoginPage = () => <Login isAuthenticated={isAuthenticated} />;
+  const LoginPage = () => <Login />;
 
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
@@ -80,7 +88,7 @@ export default function Main() {
 
   return (
     <>
-      <Navbar isAuthenticated={isAuthenticated} profile={profile} />
+      <Navbar isAuthenticated={props.auth.isAuthenticated} profile={profile} />
       <Switch>
         <Route exact path="/" component={HomeComponent} />
         <Route path="/about" component={About} />
@@ -120,6 +128,14 @@ export default function Main() {
     </>
   );
 }
+
+const mapStateToProps = (state) => ({ auth: state.auth });
+
+const mapDispatchToProps = (dispatch) => ({
+  refreshToken: () => dispatch(requestRefreshTokenAction()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 // const PrivateRoute = ({ component: Component, ...restProps }) => (
 //   <Route

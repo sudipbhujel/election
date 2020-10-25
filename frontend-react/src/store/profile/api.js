@@ -1,4 +1,4 @@
-import api from "../config.auth";
+import api from "../config";
 import { parseItem } from "../action-utils";
 import authHeader from "../../services/auth-header";
 

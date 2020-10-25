@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+
+import { useHistory } from "react-router-dom";
 
 import LoginForm from "./LoginForm";
 
 function Login(props) {
-  return (
-    <div>
-      <LoginForm />
-    </div>
-  );
+  const history = useHistory();
+
+  useEffect(() => {
+    if (props.pageState.isAuthenticated) {
+      history.replace("/");
+    }
+  }, [props.counter]);
+
+  return <LoginForm />;
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  pageState: state.auth,
+});
+
+export default connect(mapStateToProps)(Login);
