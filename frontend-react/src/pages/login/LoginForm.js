@@ -40,7 +40,7 @@ const validate = (values) => {
   return errors;
 };
 
-export default function LoginForm() {
+export default function LoginForm({children}) {
   const nextButton = useRef(null);
   const video = useRef(null);
   const canvas = useRef(null);
@@ -157,6 +157,7 @@ export default function LoginForm() {
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Container width="40rem">
+            {children}
             <Form.Header>Login</Form.Header>
             <Form.Group>
               <Form.Row>

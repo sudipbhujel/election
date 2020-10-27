@@ -6,7 +6,6 @@ import {
   LOGOUT_SUCCESS,
   REFRESH_TOKEN_REQUEST,
   REFRESH_TOKEN_SUCCESS,
-  REFRESH_TOKEN_NO_NEED,
   REFRESH_TOKEN_FAILURE,
 } from "./actions";
 
@@ -59,25 +58,20 @@ export const authReducer = (state = initState, action) => {
       };
 
     case REFRESH_TOKEN_REQUEST:
-      return Object.assign({}, { isAuthenticated: false, data: [] }, state, {
-        loading: true,
-      });
+      return { ...state, loading: true };
     case REFRESH_TOKEN_SUCCESS:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         loading: false,
         isAuthenticated: true,
         data: action.payload,
         error: "",
-      };
-    case REFRESH_TOKEN_NO_NEED:
-      return { ...state, };
+      });
     case REFRESH_TOKEN_FAILURE:
       return Object.assign({}, state, {
         isAuthenticated: false,
         data: [],
         loading: false,
-        error: action.payload
+        error: "",
       });
 
     default:

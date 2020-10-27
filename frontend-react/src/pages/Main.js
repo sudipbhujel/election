@@ -18,8 +18,6 @@ import useParties from "./useParties";
 import useProfile from "./useProfile";
 
 
-import {refreshTokenApi, requestRefreshTokenAction} from "../store"
-
 function Main(props) {
   const {
     isAuthenticated,
@@ -31,10 +29,6 @@ function Main(props) {
   } = useProfile();
 
   const { candidates, getCandidates } = useCandidates();
-
-  useEffect(() => {
-    props.refreshToken();
-  }, []);
 
   useEffect(() => {
     getProfile();
@@ -55,7 +49,7 @@ function Main(props) {
   const HomeComponent = () => (
     <Home
       isAuthenticated={isAuthenticated}
-      profile={profile}
+      profile={props.profile}
       error={errProfile}
       candidates={candidates}
     />
@@ -129,13 +123,9 @@ function Main(props) {
   );
 }
 
-const mapStateToProps = (state) => ({ auth: state.auth });
+const mapStateToProps = (state) => ({ auth: state.auth, profile: state.profile });
 
-const mapDispatchToProps = (dispatch) => ({
-  refreshToken: () => dispatch(requestRefreshTokenAction()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps)(Main);
 
 // const PrivateRoute = ({ component: Component, ...restProps }) => (
 //   <Route

@@ -1,12 +1,10 @@
-import api from '../config';
-import { parseItem } from '../action-utils';
+import api from "../config";
 
 export const addAuthTokenApi = async (creds) => {
-    const response = await api.post('/api/user/token/', creds);
-    return parseItem(response, 200);
-};
-
-export const refreshTokenApi = async (refreshToken) => {
-    const response = await api.post('/api/user/token/refresh/', {"refresh": refreshToken});
-    return parseItem(response, 200);
+  try {
+    const response = await api.post("/api/user/token/", creds);
+    return response.data;
+  } catch (e) {
+    throw Error(e.response.data.detail);
+  }
 };
