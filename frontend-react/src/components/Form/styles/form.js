@@ -45,6 +45,7 @@ export const Icon = styled.i`
 `;
 
 export const Input = styled.input`
+  background: #fff;
   width: 100%;
   padding: 1em 0 1em 3.5em;
   border: 1px solid #e5e5e5;
@@ -69,6 +70,7 @@ export const Input = styled.input`
 `;
 
 export const Select = styled.select`
+  background: #fff;
   width: 100%;
   padding: 1em 0 1em 3.5em;
   border: 1px solid #e5e5e5;

@@ -6,14 +6,6 @@ import Error from "../../components/Error";
 import LoginForm from "./LoginForm";
 
 function Login(props) {
-  const history = useHistory();
-
-  useEffect(() => {
-    if (props.pageState.isAuthenticated) {
-      history.replace("/");
-    }
-  }, [props.counter]);
-
   return (
     <>
       <LoginForm>
