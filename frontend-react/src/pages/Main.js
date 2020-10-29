@@ -103,7 +103,6 @@ function Main(props) {
           path="/signup"
           component={SignupPage}
         />
-        <Route path="*" component={NoMatchPage} />
 
         {/* Private Route */}
         <PrivateRoute
@@ -128,6 +127,9 @@ function Main(props) {
           path="/logout"
           component={Logout}
         />
+
+        {/* Not found */}
+        <Route path="*" component={NoMatchPage} />
       </Switch>
     </>
   );

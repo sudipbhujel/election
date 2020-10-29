@@ -120,7 +120,9 @@ export default function ProfilePage({ profile }) {
               </Profile.Icon>
               <Profile.ItemDetail>
                 <Profile.ItemTitle>Public Key</Profile.ItemTitle>
-                <Profile.ItemValue>{profile.public_key}</Profile.ItemValue>
+                <Profile.ItemValue>
+                  {profile.public_key ? profile.public_key : "Not Available"}
+                </Profile.ItemValue>
               </Profile.ItemDetail>
             </Profile.InfoItem>
 

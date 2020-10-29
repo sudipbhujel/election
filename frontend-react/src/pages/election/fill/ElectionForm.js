@@ -310,6 +310,7 @@ export default function ElectionForm(props) {
                   type="file"
                   onChange={onCitizenshipImageChange}
                   placeholder="Citizenship Image"
+                  accept="image/*"
                 />
                 <Form.Image src={citizenshipImage} />
                 <Form.Icon>
@@ -329,6 +330,7 @@ export default function ElectionForm(props) {
                   type="file"
                   onChange={onProfileImageChange}
                   placeholder="Profile Image"
+                  accept="image/*"
                 />
                 <Form.Image src={profileImage} />
                 <Form.Icon>
