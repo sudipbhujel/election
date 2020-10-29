@@ -12,7 +12,7 @@ import GlobalStyles from "./globalStyles";
 
 const store = configureStore();
 
-api(store)
+api(store) // pass store object
 
 ReactDOM.render(
   <Provider store={store}>

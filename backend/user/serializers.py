@@ -36,15 +36,15 @@ class UserRegistrationSerializer(serializers.Serializer):
     """
     Serializes User and FaceImage models
     """
-    faceimageserializer = FaceImageSerializer()
-    userserializer = UserSerializer()
+    face = FaceImageSerializer()
+    user = UserSerializer()
 
     def create(self, validated_data):
         """
         Create faceimage and user object
         """
-        faceimage_data = validated_data.pop('faceimageserializer')
-        user_data = validated_data.pop('userserializer')
+        faceimage_data = validated_data.pop('face')
+        user_data = validated_data.pop('user')
         payload = {
             'citizenship_number': user_data['citizenship_number'],
             'email': user_data['email'],
@@ -58,8 +58,8 @@ class UserRegistrationSerializer(serializers.Serializer):
         image_data = {
             'image': faceimage.image.url
         }
-        data = {'faceimageserializer': image_data,
-                'userserializer': user_data}
+        data = {'face': image_data,
+                'user': user_data}
         # Celery work
         current_site = get_current_site(self.context.get('request'))
         user_created.delay(user.id, current_site.domain)

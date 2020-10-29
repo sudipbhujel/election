@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
+
 import { candidatesReducer } from './candidate/reducers';
-import { authReducer } from './auth/reducers';
+import { authReducer, registerReducer } from './auth/reducers';
 import { profileReducer } from './profile/reducers';
 import { partiesReducer } from './party/reducers';
 
@@ -22,6 +23,7 @@ export * from './party/api';
 
 const store = combineReducers({
     candidates: candidatesReducer,
+    register: registerReducer,
     auth: authReducer,
     profile: profileReducer,
     parties: partiesReducer

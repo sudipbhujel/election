@@ -1,4 +1,3 @@
-import { select, takeEvery, takeLatest, all } from "redux-saga/effects";
 import { applyMiddleware, compose, createStore } from "redux";
 import createSagaMiddleware, { END } from "redux-saga";
 import { createLogger } from "redux-logger";

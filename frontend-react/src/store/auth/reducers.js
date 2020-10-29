@@ -1,4 +1,7 @@
 import {
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -73,6 +76,42 @@ export const authReducer = (state = initState, action) => {
         loading: false,
         error: "",
       });
+
+    default:
+      return state;
+  }
+};
+
+let initRegister = {
+  loading: false,
+  data: [],
+  error: void 0,
+};
+
+export const registerReducer = (state = initRegister, action) => {
+  switch (action.type) {
+    case SIGNUP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        data: [],
+        error: "",
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        data: action.payload,
+        error: "",
+      };
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        data: [],
+        error: action.payload,
+      };
 
     default:
       return state;

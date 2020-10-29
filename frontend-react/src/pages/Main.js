@@ -13,6 +13,7 @@ import Party from "./party";
 import PartyDetail from "./party/:id";
 import ProfilePage from "./profile";
 import ProfileEdit from "./profile/edit";
+import Signup from './signup';
 import useCandidates from "./useCandidates";
 import useParties from "./useParties";
 import useProfile from "./useProfile";
@@ -75,6 +76,7 @@ function Main(props) {
   );
 
   const LoginPage = () => <Login />;
+  const SignupPage = () => <Signup />;
 
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
@@ -116,6 +118,10 @@ function Main(props) {
           isAuthenticated={isAuthenticated}
           path="/logout"
           component={Logout}
+        />
+        <Route
+          path="/signup"
+          component={SignupPage}
         />
         <Route path="*" component={NoMatchPage} />
       </Switch>

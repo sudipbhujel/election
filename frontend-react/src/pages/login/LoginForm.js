@@ -17,30 +17,13 @@ const validate = (values) => {
   } else if (isNaN(Number(values.citizenship_number))) {
     errors.citizenship_number = "Must be a number.";
   }
-  // if (!values.username) {
-  //   errors.username = "Required";
-  // } else if (values.username.length > 15) {
-  //   errors.username = "Must be 15 characters or less";
-  // }
   if (!values.password) {
     errors.password = "Required";
   }
-  // if (!values.email) {
-  //   errors.email = "Required";
-  // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-  //   errors.email = "Invalid email address";
-  // }
-  // if (!values.age) {
-  //   errors.age = "Required";
-  // } else if (isNaN(Number(values.age))) {
-  //   errors.age = "Must be a number";
-  // } else if (Number(values.age) < 18) {
-  //   errors.age = "Sorry, you must be at least 18 years old";
-  // }
   return errors;
 };
 
-export default function LoginForm({children}) {
+export default function LoginForm({ children }) {
   const nextButton = useRef(null);
   const video = useRef(null);
   const canvas = useRef(null);
@@ -127,11 +110,9 @@ export default function LoginForm({children}) {
   function stopStreamedVideo(videoElem) {
     const stream = videoElem.srcObject;
     const tracks = stream.getTracks();
-  
-    tracks.forEach(function(track) {
+    tracks.forEach(function (track) {
       track.stop();
     });
-  
     videoElem.srcObject = null;
   }
 
@@ -147,7 +128,7 @@ export default function LoginForm({children}) {
     } catch (err) {
       console.log(err);
     }
-    stopStreamedVideo(video.current)
+    stopStreamedVideo(video.current);
   };
 
   return (
@@ -228,14 +209,6 @@ export default function LoginForm({children}) {
             >
               Submit
             </Button>
-            {/* <Button
-                type="button"
-                onClick={form.reset}
-                disabled={submitting || pristine}
-              >
-                Reset
-              </Button> */}
-
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </Form.Container>
         </Form>

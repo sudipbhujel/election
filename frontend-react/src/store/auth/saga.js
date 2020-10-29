@@ -1,13 +1,10 @@
-import {
-  put,
-  takeEvery,
-  takeLatest,
-  call,
-  all,
-} from "redux-saga/effects";
+import { put, takeEvery, takeLatest, call, all } from "redux-saga/effects";
 import jwt_decode from "jwt-decode";
 
 import {
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -17,7 +14,23 @@ import {
   REFRESH_TOKEN_SUCCESS,
   REFRESH_TOKEN_FAILURE,
 } from "./actions";
-import { addAuthTokenApi } from "./api";
+import { addAuthTokenApi, addNewUserApi } from "./api";
+
+export function* addingNewUserAsync({ payload }) {
+  try {
+    const data = yield call(addNewUserApi, payload);
+    yield put({
+      type: SIGNUP_SUCCESS,
+      payload: data,
+    });
+  } catch (err) {
+    yield put({ type: SIGNUP_FAILURE, payload: err });
+  }
+}
+
+export function* watchAddingNewUserAsync() {
+  yield takeLatest(SIGNUP_REQUEST, addingNewUserAsync);
+}
 
 export function* addingAuthTokenAsync({ payload }) {
   try {
@@ -72,8 +85,8 @@ export function* watchRefreshingTokenAsync() {
 }
 
 export function* authSaga() {
-
   yield all([
+    watchAddingNewUserAsync(),
     watchAddingAuthTokenAsync(),
     watchRemovingAuthTokenAsync(),
     watchRefreshingTokenAsync(),

@@ -8,3 +8,12 @@ export const addAuthTokenApi = async (creds) => {
     throw Error(e.response.data.detail);
   }
 };
+
+export const addNewUserApi = async (creds) => {
+  try {
+    const response = await api.post("/api/user/create/", creds);
+    return response.data;
+  } catch (e) {
+    throw e.response.data;
+  }
+};
