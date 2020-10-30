@@ -54,6 +54,7 @@ const validate = (values) => {
   if (!values.tole) {
     errors.tole = "Required";
   }
+  return errors;
 };
 
 export default function ProfileEditForm({ profile, editProfile }) {
@@ -71,6 +72,35 @@ export default function ProfileEditForm({ profile, editProfile }) {
     ward: profile.ward,
     tole: profile.tole,
   };
+
+  const InputRow = ({ placeholder, inputType, input, meta }) => (
+    <>
+      <Form.Input
+        {...input}
+        validationFailed={meta.touched && meta.error}
+        type={inputType}
+        placeholder={placeholder}
+      />
+      {meta.error && meta.touched && (
+        <Form.FieldError>{meta.error}</Form.FieldError>
+      )}
+    </>
+  );
+
+  const InputSelect = ({ children, placeholder, input, meta }) => (
+    <>
+      <Form.Select
+        validationFailed={meta.touched && meta.error}
+        {...input}
+        placeholder={placeholder}
+      >
+        {children}
+      </Form.Select>
+      {meta.error && meta.touched && (
+        <Form.FieldError>{meta.error}</Form.FieldError>
+      )}
+    </>
+  );
 
   const onSubmit = (values) => {
     const data = new FormData();
@@ -91,47 +121,30 @@ export default function ProfileEditForm({ profile, editProfile }) {
       render={({ handleSubmit, form, submitting, pristine, values }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Container width="55em">
-            <Form.Header>Election Form</Form.Header>
+            <Form.Header>Edit Profile</Form.Header>
 
             {/* Personal Information */}
             <Form.Subheader>Personal Information</Form.Subheader>
             <Form.Group>
               <Form.Row>
-                <Field name="first_name">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        {...input}
-                        validationFailed={meta.touched && meta.error}
-                        type="text"
-                        placeholder="First Name"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="first_name"
+                  inputType="text"
+                  type="good"
+                  placeholder="First Name"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaUser />
                 </Form.Icon>
               </Form.Row>
               <Form.Row>
-                <Field name="last_name">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="text"
-                        placeholder="Last Name"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="last_name"
+                  inputType="text"
+                  placeholder="Last Name"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaUser />
                 </Form.Icon>
@@ -139,41 +152,23 @@ export default function ProfileEditForm({ profile, editProfile }) {
             </Form.Group>
             <Form.Group>
               <Form.Row>
-                <Field name="father_name">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        {...input}
-                        validationFailed={meta.touched && meta.error}
-                        type="text"
-                        placeholder="Father's Name"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="father_name"
+                  inputType="text"
+                  placeholder="Father's Name"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaMale />
                 </Form.Icon>
               </Form.Row>
               <Form.Row>
-                <Field name="mother_name">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="text"
-                        placeholder="Mother's Name"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="mother_name"
+                  inputType="text"
+                  placeholder="Mother's Name"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaFemale />
                 </Form.Icon>
@@ -181,47 +176,26 @@ export default function ProfileEditForm({ profile, editProfile }) {
             </Form.Group>
             <Form.Group>
               <Form.Row>
-                <Field name="gender">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Select
-                        {...input}
-                        validationFailed={meta.touched && meta.error}
-                        type="text"
-                        placeholder="Father's Name"
-                      >
-                        <option value="" disabled hidden>
-                          Choose here
-                        </option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                      </Form.Select>
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
+                <Field
+                  name="gender"
+                  placeholder="Gender"
+                  component={InputSelect}
+                >
+                  <option value="">Choose here</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </Field>
                 <Form.Icon>
                   <FaTransgender />
                 </Form.Icon>
               </Form.Row>
               <Form.Row>
-                <Field name="dob">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="date"
-                        placeholder="Date of Birth"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="dob"
+                  inputType="date"
+                  placeholder="Date of Birth"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaBirthdayCake />
                 </Form.Icon>
@@ -235,26 +209,14 @@ export default function ProfileEditForm({ profile, editProfile }) {
             </h6>
             <Form.Group>
               <Form.Row>
-                <Field name="citizenship_issued_district">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Select
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="text"
-                        placeholder="Citizenship Issued District"
-                      >
-                        <option value="" disabled hidden>
-                          Choose here
-                        </option>
-                        <option value="dolakha">Dolakha</option>
-                        <option value="kathmandu">Kathmandu</option>
-                      </Form.Select>
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
+                <Field
+                  name="citizenship_issued_district"
+                  placeholder="Citizenship Issued District"
+                  component={InputSelect}
+                >
+                  <option value="">Choose District</option>
+                  <option value="dolakha">Dolakha</option>
+                  <option value="kathmandu">Kathmandu</option>
                 </Field>
                 <Form.Icon>
                   <FaLocationArrow />
@@ -267,52 +229,28 @@ export default function ProfileEditForm({ profile, editProfile }) {
             <Form.Subheader>Address Details</Form.Subheader>
             <Form.Group>
               <Form.Row>
-                <Field name="province">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Select
-                        {...input}
-                        validationFailed={meta.touched && meta.error}
-                        type="text"
-                        placeholder="Province"
-                      >
-                        <option value="" disabled hidden>
-                          Choose Province
-                        </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </Form.Select>
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
+                <Field
+                  name="province"
+                  placeholder="Province"
+                  component={InputSelect}
+                >
+                  <option value="">Choose Province</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
                 </Field>
                 <Form.Icon>
                   <FaLocationArrow />
                 </Form.Icon>
               </Form.Row>
               <Form.Row>
-                <Field name="district">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Select
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="text"
-                        placeholder="District"
-                      >
-                        <option value="" disabled hidden>
-                          Choose District
-                        </option>
-                        <option value="dolakha">Dolakha</option>
-                        <option value="kathmandu">Kathmandu</option>
-                      </Form.Select>
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
+                <Field
+                  name="district"
+                  placeholder="District"
+                  component={InputSelect}
+                >
+                  <option value="">Choose District</option>
+                  <option value="dolakha">Dolakha</option>
+                  <option value="kathmandu">Kathmandu</option>
                 </Field>
                 <Form.Icon>
                   <FaLocationArrow />
@@ -322,41 +260,23 @@ export default function ProfileEditForm({ profile, editProfile }) {
 
             <Form.Group>
               <Form.Row>
-                <Field name="municipality">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        {...input}
-                        validationFailed={meta.touched && meta.error}
-                        type="text"
-                        placeholder="Municipality"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="municipality"
+                  inputType="text"
+                  placeholder="Municipality"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaLocationArrow />
                 </Form.Icon>
               </Form.Row>
               <Form.Row>
-                <Field name="ward">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="text"
-                        placeholder="Ward No."
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="ward"
+                  inputType="text"
+                  placeholder="Ward"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaSearchLocation />
                 </Form.Icon>
@@ -364,21 +284,12 @@ export default function ProfileEditForm({ profile, editProfile }) {
             </Form.Group>
             <Form.Group>
               <Form.Row>
-                <Field name="tole">
-                  {({ input, meta }) => (
-                    <>
-                      <Form.Input
-                        validationFailed={meta.touched && meta.error}
-                        {...input}
-                        type="text"
-                        placeholder="Tole"
-                      />
-                      {meta.error && meta.touched && (
-                        <Form.FieldError>{meta.error}</Form.FieldError>
-                      )}
-                    </>
-                  )}
-                </Field>
+                <Field
+                  name="tole"
+                  inputType="text"
+                  placeholder="Tole"
+                  component={InputRow}
+                />
                 <Form.Icon>
                   <FaSearchLocation />
                 </Form.Icon>
