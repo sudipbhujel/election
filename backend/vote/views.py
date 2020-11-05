@@ -28,12 +28,11 @@ class VoteView(views.APIView):
     def post(self, request, format=None):
         serializer = VoteSerializer(
             data=request.data, context={'request': request})
-        id_card_image = request.FILES['id_card']
         if serializer.is_valid():
-            id_card = decode_qr(id_card_image)
+            # needs to validate candidate's id
             candidate = Candidate.objects.get(
                 id=serializer.data['candidate_id'])
-            voter = Voter(id_card['private_key'])
+            voter = Voter(serializer.data['private_key'])
             try:
                 receipt = voter.do_vote(candidate.profile.public_key)
             except:
@@ -48,7 +47,7 @@ class VoteView(views.APIView):
             candidate.party.vote_count += 1
             candidate.party.save()
             candidate.save()
-            vote_succeeded.delay(int(id_card['citizenship_number']))
+            vote_succeeded.delay(request.user.citizenship_number)
             return Response(
                 {'status': True, 'link': f'https://rinkeby.etherscan.io/tx/{tx_hash}'},
                 status=status.HTTP_200_OK)
