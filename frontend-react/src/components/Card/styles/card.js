@@ -23,9 +23,12 @@ export const Banner = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 8rem;
-  clip-path: circle(60px at center);
+  clip-path: circle(50% at center);
   margin-top: 4.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
 `;
 
 export const Title = styled.h1`

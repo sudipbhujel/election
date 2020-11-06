@@ -1,12 +1,53 @@
-import styled, { createGlobalStyle } from "styled-components/macro";
+import styled, { css, createGlobalStyle } from "styled-components/macro";
 
 const GlobalStyles = createGlobalStyle`
   * {
   box-sizing: border-box;
-  // margin: 0;
-  // padding: 0;
+  margin: 0;
+  padding: 0;
   font-family: 'Source Sans Pro', sans-serif;
- } 
+  } 
+
+  body {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 10rem;
+  }
+
+  h1,
+  h2 {
+    color: #4d80e4;
+  }
+
+  h1 {
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+  }
+
+  h2 {
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+  }
+
+  h3 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  h4 {
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+  }
+
+  h5 {
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+  }
+
+  h6 {
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+  }
 `;
 
 export const Container = styled.div`
@@ -23,24 +64,84 @@ export const Container = styled.div`
   }
 `;
 
-export const Button = styled.button`
-  border-radius: 4px;
-  background: ${({ primary }) => (primary ? "#4B59F7" : "#0467FB")};
-  white-space: nowrap;
-  padding: ${({ big }) => (big ? "12px 64px" : "10px 20px")};
-  color: #fff;
-  font-size: ${({ fontBig }) => (fontBig ? "20px" : "16px")};
-  outline: none;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    transition: all 0.3s ease-out;
-    background: #fff;
-    background-color: ${({ primary }) => (primary ? "#0467FB" : "#4B59F7")};
+export const RowCSS = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    display: block;
   }
-  // @media screen and (max-width: 960px) {
-  //   width: 100%;
-  // }
+`;
+
+export const ColumnCSS = css`
+  flex: 1;
+`;
+
+const primaryBtn = css`
+  background-color: #4d80e4;
+
+  &:hover {
+    background-color: #3770e2;
+    transition: all 0.3s ease-out;
+  }
+`;
+
+const dangerBtn = css`
+  background-color: #ec0101;
+
+  &:hover {
+    background-color: #cd0a0a;
+    transition: all 0.3s ease-out;
+  }
+`;
+
+export const Button = styled.button`
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #ffffff;
+
+  ${(props) => {
+    if (props.primary) {
+      return `${primaryBtn}`;
+    } else if (props.danger) {
+      return `${dangerBtn}`;
+    } else {
+      return `${primaryBtn}`;
+    }
+  }}
+`;
+
+export const InfoLinkGroup = styled.div`
+  display: flex;
+`;
+
+export const InfoLink = styled.a`
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  color: #4d80e4;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 10px;
+
+  svg {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+  &:hover {
+    color: #5952bc;
+  }
+
+  &:hover svg path {
+    fill: #5952bc;
+  }
 `;
 
 export default GlobalStyles;

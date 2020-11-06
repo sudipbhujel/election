@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
+import Ballot from "../pages/vote/ballot";
 import Candidates from "../candidates/Candidates";
 import Navbar from "../components/Navbar";
 import About from "./about";
@@ -14,9 +15,11 @@ import PartyDetail from "./party/:id";
 import ProfilePage from "./profile";
 import ProfileEdit from "./profile/edit";
 import Signup from "./signup";
+import Vote from "./vote";
 import useCandidates from "./useCandidates";
 import useParties from "./useParties";
 import useProfile from "./useProfile";
+import Footer from "../components/Footer";
 
 function Main(props) {
   const { auth } = props;
@@ -76,6 +79,8 @@ function Main(props) {
 
   const LoginPage = () => <Login />;
   const SignupPage = () => <Signup />;
+  const VotingPage = () => <Vote candidates={candidates} />;
+  const BallotPage = () => <Ballot candidates={candidates} />;
 
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
@@ -127,10 +132,22 @@ function Main(props) {
           path="/logout"
           component={Logout}
         />
+        <PrivateRoute
+          exact
+          isAuthenticated={auth.isAuthenticated}
+          path="/vote"
+          component={VotingPage}
+        />
+        <PrivateRoute
+          isAuthenticated={auth.isAuthenticated}
+          path="/vote/ballot"
+          component={BallotPage}
+        />
 
         {/* Not found */}
         <Route path="*" component={NoMatchPage} />
       </Switch>
+      <Footer />
     </>
   );
 }
