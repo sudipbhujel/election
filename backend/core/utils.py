@@ -19,7 +19,8 @@ def base64_file(data, name=None):
     _name, ext = _format.split('/')
     if not name:
         name = _name.split(":")[-1]
-    return ContentFile(base64.b64decode(_img_str), name='{}.{}'.format(name, ext))
+    return ContentFile(base64.b64decode(_img_str), name='{}.{}'.format(name, ext))  # noqa: E501
+
 
 def base64_decode(data):
     """
@@ -33,6 +34,7 @@ def base64_decode(data):
         base64 encoded object
     """
     return base64.b64decode(data.encode('utf-8'))
+
 
 def base64_encode(data):
     """

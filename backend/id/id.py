@@ -1,4 +1,3 @@
-import uuid
 import os
 
 import qrcode
@@ -51,7 +50,7 @@ class ID:
         )
 
         qr.add_data(
-            f'private_key: {self.private_key} \ncitizenship_number: {self.citizenship_number}')
+            f'private_key: {self.private_key} \ncitizenship_number: {self.citizenship_number}')  # noqa: E501
         qr.make(fit=True)
 
         img = qr.make_image(fill_color='black', back_color='white')

@@ -1,5 +1,4 @@
 from django import template
-from django.contrib import messages
 from django.utils.safestring import mark_safe
 
 from ethereum.manager import Manager
@@ -26,13 +25,17 @@ def manager_control(context):
         st = state()
         if receipt['status']:
 
-            ctx['message'] = mark_safe(f'<p style="color:green;"> \
+            ctx['message'] = mark_safe(
+                f'<p style="color:green;"> \
                 ✔ You successfully started the election. \
-                Please, visit <a href={url}>{url}</a> for further information.</p>')
+                Please, visit <a href={url}>{url}</a> for \
+                further information.</p>')
             return ctx
         else:
-            ctx['message'] = mark_safe(f'<p style="color:red;"> X Oops! we got some error. \
-                Please, navigate to <a href={url}>{url}</a> for further information.</p>')
+            ctx['message'] = mark_safe(
+                f'<p style="color:red;"> X Oops! we got some error. \
+                Please, navigate to <a href={url}>{url}</a> for further \
+                information.</p>')
             return ctx
 
     if "_end-election" in request.POST:
@@ -42,11 +45,15 @@ def manager_control(context):
         st = state()
         if receipt['status']:
 
-            ctx['message'] = mark_safe(f'<p style="color:green;"> \
+            ctx['message'] = mark_safe(
+                f'<p style="color:green;"> \
                 ✔ You successfully ended the election. \
-                Please, visit <a href={url}>{url}</a> for further information.</p>')
+                Please, visit <a href={url}>{url}</a> for \
+                further information.</p>')
             return ctx
         else:
-            return {'message': mark_safe(f'<p style="color:red;"> X Oops! we got some error. \
-                Please, navigate to <a href={url}>{url}</a> for further information.</p>')}
+            return {'message': mark_safe(
+                f'<p style="color:red;"> X Oops! we got some error. \
+                Please, navigate to <a href={url}>{url}</a> for \
+                further information.</p>')}
     return ctx

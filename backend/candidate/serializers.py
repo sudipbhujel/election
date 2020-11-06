@@ -11,7 +11,6 @@ class CandidateSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
         source='profile.get_full_name', read_only=True)
     image = serializers.ImageField(source='profile.image', read_only=True)
-    # public_key = serializers.CharField(source='profile.public_key', read_only=True)
     party_name = serializers.CharField(source='party.name', read_only=True)
     party_logo = serializers.ImageField(source='party.logo')
 
@@ -26,7 +25,6 @@ class CandidateSerializer(serializers.ModelSerializer):
 class CandidateDetailSerializer(serializers.ModelSerializer):
     public_key = serializers.CharField(
         source='profile.public_key', read_only=True)
-    # party_name = serializers.CharField(source='party.name', read_only=True)
     profile = ProfileSerializer()
     party = PartySerializer()
 

@@ -1,6 +1,3 @@
-import os
-
-from django.conf import settings
 from PIL import Image
 from pyzbar.pyzbar import decode
 

@@ -75,7 +75,7 @@ class AuthTokenObtainSerializer(TokenObtainPairSerializer):
         json: 'access' and 'token'
     """
     default_error_messages = {
-        'no_active_account': _('No active account found with the given credentials')
+        'no_active_account': _('No active account found with the given credentials')  # noqa: E501
     }
 
     def __init__(self, *args, **kwargs):

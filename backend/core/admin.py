@@ -99,7 +99,8 @@ class ProfileAdmin(admin.ModelAdmin):
                 obj.public_key = account.address
                 obj.save()
                 self.message_user(
-                    request, f'Public key for {obj.get_full_name} is {account.address}')
+                    request, f'Public key for {obj.get_full_name} \
+                        is {account.address}')
 
                 # ID generation
                 citizen = {
@@ -123,7 +124,7 @@ class ProfileAdmin(admin.ModelAdmin):
                     request, 'GENERATED')
 
                 return HttpResponseRedirect('.')
-            except:
+            except:  # noqa: E722
                 messages.error(request, "Oops, Error has encountered!")
                 return HttpResponseRedirect('.')
 
@@ -147,14 +148,18 @@ class ProfileAdmin(admin.ModelAdmin):
             url = f'https://rinkeby.etherscan.io/tx/{tx_hash}'
             if receipt['status']:
                 self.message_user(
-                    request, mark_safe(f'You successfully added this voter to eth-net.\
-                        Please, navigate to <a href={url}>{url}</a> for further information.'))
+                    request, mark_safe(
+                        f'You successfully added this voter to eth-net.\
+                        Please, navigate to <a href={url}>{url}</a> for \
+                        further information.'))
                 obj.is_voter = True
                 obj.save()
                 return HttpResponseRedirect('.')
             else:
-                messages.error(request, mark_safe(f'Oops! your transaction is failed.\
-                    Please navigate to <a href={url}>{url}</a> for further information.'))
+                messages.error(request, mark_safe(
+                    f'Oops! your transaction is failed.\
+                    Please navigate to <a href={url}>{url}</a> for \
+                    further information.'))
                 return HttpResponseRedirect('.')
 
         return super().response_change(request, obj)
@@ -200,14 +205,18 @@ class CandidateAdmin(admin.ModelAdmin):
             url = f'https://rinkeby.etherscan.io/tx/{tx_hash}'
             if receipt['status']:
                 self.message_user(
-                    request, mark_safe(f'You successfully added this candidate to eth-net.\
-                        Please, navigate to <a href={url}>{url}</a> for further information.'))
+                    request, mark_safe(
+                        f'You successfully added this candidate to eth-net.\
+                        Please, navigate to <a href={url}>{url}</a> for \
+                        further information.'))
                 obj.is_candidate = True
                 obj.save()
                 return HttpResponseRedirect('.')
             else:
-                messages.error(request, mark_safe(f'Oops! your transaction is failed.\
-                    Please navigate to <a href={url}>{url}</a> for further information'))
+                messages.error(request, mark_safe(
+                    f'Oops! your transaction is failed.\
+                    Please navigate to <a href={url}>{url}</a> for \
+                    further information'))
                 return HttpResponseRedirect('.')
         return super().response_change(request, obj)
 

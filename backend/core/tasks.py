@@ -25,7 +25,7 @@ def id_generated(profile_id, im):
                     <h4>Your Voter ID card is ready, Please save it.
                     </h4>
                     <p>
-                    Please, don't share this card. Noone from this 
+                    Please, don't share this card. Noone from this
                     organization will ask about this credentials.<br>
                     <img src="cid:embedded_image" alt="ID Card"/>
                     </p>

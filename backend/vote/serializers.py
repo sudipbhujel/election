@@ -1,8 +1,5 @@
-from django.db.models import fields
-from django.http import request
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
 
 from core.models import Candidate
 from id.decode import decode_qr
@@ -52,7 +49,8 @@ class ValidateIdSerializer(serializers.Serializer):
 
         if not cit_number == int(id['citizenship_number']):
             raise serializers.ValidationError(
-                'Citizenship number doesn\'t match.', code='citizenship_number')
+                'Citizenship number doesn\'t match.',
+                code='citizenship_number')
 
         if not public_key == public_address:
             raise serializers.ValidationError(

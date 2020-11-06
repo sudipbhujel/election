@@ -30,7 +30,7 @@ class Voter:
 
         Returns
         -------
-            receipt: dictionary transaction receipt 
+            receipt: dictionary transaction receipt
         """
         construct_txn = self.contract.functions\
             .doVote(address).buildTransaction({

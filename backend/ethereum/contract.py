@@ -1,4 +1,3 @@
-import os
 import json
 
 from .w3 import w3

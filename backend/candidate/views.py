@@ -1,5 +1,5 @@
 from core.models import Candidate
-from rest_framework import generics, permissions
+from rest_framework import generics
 
 from .serializers import CandidateSerializer, CandidateDetailSerializer
 

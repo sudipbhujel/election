@@ -37,7 +37,7 @@ def user_created(user_id, domain):
         )
     except UserModel.DoesNotExist:
         logging.warning(
-            "Tried to send verification email to non-existing user '%s'" % user_id)
+            "Tried to send verification email to non-existing user '%s'" % user_id)  # noqa: E501
 
 
 @shared_task
@@ -67,4 +67,4 @@ def reset_password_created(user_id, domain):
         )
     except UserModel.DoesNotExist:
         logging.warning(
-            "Tried to send verification email to non-existing user '%s'" % user_id)
+            "Tried to send verification email to non-existing user '%s'" % user_id)  # noqa: E501

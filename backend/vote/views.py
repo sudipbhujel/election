@@ -1,6 +1,5 @@
 from rest_framework import permissions
 from rest_framework import views
-from rest_framework import request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.renderers import (
@@ -9,8 +8,6 @@ from rest_framework.renderers import (
 )
 
 from ethereum.voter import Voter
-
-from id.decode import decode_qr
 
 from .serializers import VoteSerializer, ValidateIdSerializer
 from .tasks import vote_succeeded
@@ -35,12 +32,15 @@ class VoteView(views.APIView):
             voter = Voter(serializer.data['private_key'])
             try:
                 receipt = voter.do_vote(candidate.profile.public_key)
-            except:
+            except:  # noqa: E722
                 raise ValueError('You have no eth.')
             tx_hash = receipt['transactionHash'].hex()
             if not receipt['status']:
                 return Response(
-                    {'status': False, 'link': f'https://rinkeby.etherscan.io/tx/{tx_hash}'},
+                    {
+                        'status': False,
+                        'link': f'https://rinkeby.etherscan.io/tx/{tx_hash}'
+                    },
                     status=status.HTTP_400_BAD_REQUEST)
 
             candidate.vote_count += 1
@@ -49,7 +49,10 @@ class VoteView(views.APIView):
             candidate.save()
             vote_succeeded.delay(request.user.citizenship_number)
             return Response(
-                {'status': True, 'link': f'https://rinkeby.etherscan.io/tx/{tx_hash}'},
+                {
+                    'status': True,
+                    'link': f'https://rinkeby.etherscan.io/tx/{tx_hash}'
+                },
                 status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
