@@ -10,7 +10,7 @@ const motion = (props) => keyframes`
 `;
 
 export const SpinnerContainer = styled.div`
-//   display: inline-block;
+  //   display: inline-block;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -87,4 +87,22 @@ export const SpinnerContainer = styled.div`
     top: 45px;
     left: 10px;
   }
+`;
+
+export const SpinnerWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 999;
+`;
+
+export const SpinnerText = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  z-index: 1100;
+  color: ${({ color }) => color};
 `;

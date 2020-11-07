@@ -1,4 +1,7 @@
 import React from "react";
+import { Form, Field } from "react-final-form";
+
+import Spinner from "../../../components/Spinner";
 import { Button, Container } from "../../../globalStyles";
 
 import {
@@ -12,10 +15,28 @@ import {
   Avatar,
   CardInfo,
   Swastik,
-  Submit
+  Submit,
 } from "../styles/ballot";
+import useVote from "../useVote";
+
+const validate = (values) => {
+  const errors = {};
+  if (!values.candidate_id) {
+    errors.candidate_id = "Required";
+  }
+  return errors;
+};
 
 export default function Ballot(props) {
+  const { ballot, doVote } = useVote();
+
+  const onSubmit = (values) => {
+    const data = new FormData();
+    data.append("candidate_id", values.candidate_id);
+    data.append("private_key", ballot.data.private_key);
+    doVote(data);
+  };
+
   return (
     <div>
       <Container>
@@ -62,64 +83,91 @@ export default function Ballot(props) {
           </Info>
           <Main>
             <h3>Candidates</h3>
-            <form action="">
-              <Group>
-                {props.candidates.map((candidate) => (
-                  <Column key={candidate.id}>
-                    <Card>
-                      <Avatar>
-                        <img src={candidate.image} alt="" />
-                      </Avatar>
-                      <CardInfo>
-                        <h3>{candidate.name}</h3>
-                        <h4>{candidate.party_name}</h4>
-                        <p>{candidate.id}</p>
-                      </CardInfo>
-                    </Card>
-                    <Swastik>
-                      <input name="candidate" type="radio" id={candidate.id} />
-                      <label htmlFor={candidate.id}>Choose</label>
-                      <svg
-                        width="115"
-                        height="115"
-                        viewBox="0 0 115 115"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="57.5"
-                          cy="57.5"
-                          r="55"
-                          fill="white"
-                          stroke="#03C4A1"
-                          strokeWidth="5"
-                        />
-                        <g clipPath="url(#clip0)">
-                          <path
-                            d="M64.692 37.2494V51.1474H91.2695V90.0411H78.5899V63.827H64.692V91.2692H23.5039V78.5896H52.0124V63.827H24.5701V25.4965H37.2497V51.1477H52.0124V24.5698H92.336V37.2494H64.692Z"
-                            fill="#03C4A1"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0">
-                            <rect
-                              width="68.8321"
-                              height="68.8321"
-                              fill="white"
-                              transform="translate(23.5039 23.5037)"
-                            />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </Swastik>
-                  </Column>
-                ))}
-              </Group>
-              <Submit>
-                <Button primary>Submit</Button>
-              </Submit>
-              {/* <Button danger>Cancel</Button> */}
-            </form>
+
+            <Form
+              onSubmit={onSubmit}
+              validate={validate}
+              render={({
+                handleSubmit,
+                reset,
+                submitting,
+                pristine,
+                values,
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <Group>
+                    {props.candidates.map((candidate) => (
+                      <Column key={candidate.id}>
+                        <Card>
+                          <Avatar>
+                            <img src={candidate.image} alt="" />
+                          </Avatar>
+                          <CardInfo>
+                            <h3>{candidate.name}</h3>
+                            <h4>{candidate.party_name}</h4>
+                            <p>{candidate.id}</p>
+                          </CardInfo>
+                        </Card>
+                        <Swastik>
+                          <Field name="candidate_id" type="radio">
+                            {({ input, checked, meta }) => (
+                              <>
+                                <input
+                                  {...input}
+                                  checked={checked}
+                                  value={candidate.id}
+                                  id={candidate.id}
+                                />
+                                <label htmlFor={candidate.id}>Choose</label>
+                                <svg
+                                  width="115"
+                                  height="115"
+                                  viewBox="0 0 115 115"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle
+                                    cx="57.5"
+                                    cy="57.5"
+                                    r="55"
+                                    fill="white"
+                                    stroke="#03C4A1"
+                                    strokeWidth="5"
+                                  />
+                                  <g clipPath="url(#clip0)">
+                                    <path
+                                      d="M64.692 37.2494V51.1474H91.2695V90.0411H78.5899V63.827H64.692V91.2692H23.5039V78.5896H52.0124V63.827H24.5701V25.4965H37.2497V51.1477H52.0124V24.5698H92.336V37.2494H64.692Z"
+                                      fill="#03C4A1"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0">
+                                      <rect
+                                        width="68.8321"
+                                        height="68.8321"
+                                        fill="white"
+                                        transform="translate(23.5039 23.5037)"
+                                      />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                                {meta.error && meta.touched && null}
+                              </>
+                            )}
+                          </Field>
+                        </Swastik>
+                      </Column>
+                    ))}
+                  </Group>
+                  <Submit>
+                    <Button primary type="submit" disabled={submitting}>
+                      Submit
+                    </Button>
+                  </Submit>
+                  {ballot.loading && <Spinner text="Submitting..." />}
+                </form>
+              )}
+            />
           </Main>
         </BallotContainer>
       </Container>

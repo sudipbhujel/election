@@ -1,5 +1,4 @@
 import styled from "styled-components/macro";
-import { Container } from "../../../globalStyles";
 
 export const BallotContainer = styled.div`
   margin: 2em 0;

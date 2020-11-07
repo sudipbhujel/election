@@ -22,7 +22,7 @@ import useProfile from "./useProfile";
 import Footer from "../components/Footer";
 
 function Main(props) {
-  const { auth } = props;
+  const { auth, vote } = props;
   const {
     getProfile,
     profile,
@@ -139,6 +139,13 @@ function Main(props) {
           component={VotingPage}
         />
         <PrivateRoute
+          restricted={
+            typeof vote.data.voted === "undefined"
+              ? true
+              : vote.data.voted && typeof vote.data.private_key === "undefined"
+              ? true
+              : !vote.data.private_key
+          }
           isAuthenticated={auth.isAuthenticated}
           path="/vote/ballot"
           component={BallotPage}
@@ -155,6 +162,7 @@ function Main(props) {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  vote: state.vote,
 });
 
 export default connect(mapStateToProps)(Main);
