@@ -8,6 +8,7 @@ from rest_framework.renderers import (
 )
 
 from ethereum.voter import Voter
+from id.decode import decode_qr
 
 from .serializers import VoteSerializer, ValidateIdSerializer
 from .tasks import vote_succeeded
@@ -66,11 +67,13 @@ class ValidateIdView(views.APIView):
     def post(self, request, format=None):
         serializer = ValidateIdSerializer(
             data=request.data, context={'request': request})
-        print("Serializer is", serializer)
+        id_card_image = request.FILES['id_card']
         if serializer.is_valid():
-
+            id = decode_qr(id_card_image)
+            private_key = id['private_key']
             data = {
                 'citizenship_number': request.user.citizenship_number,
+                'private_key': private_key,
                 'status': True,
                 'voted': False
             }
@@ -79,5 +82,5 @@ class ValidateIdView(views.APIView):
         return Response({
             'status': False,
             'message': 'ID card is Invalid, Please upload your ID.',
-            'errors': serializer.errors
+            'errors': serializer.errors.values()
         }, status=status.HTTP_406_NOT_ACCEPTABLE)
