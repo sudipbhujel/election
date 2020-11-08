@@ -1,10 +1,10 @@
 import {
   REQUEST_BALLOT,
   REQUEST_BALLOT_SUCCESS,
-  REQUEST_BALLOT_ERROR,
+  REQUEST_BALLOT_FAILURE,
   DO_VOTE_REQUEST,
   DO_VOTE_SUCCESS,
-  DO_VOTE_ERROR,
+  DO_VOTE_FAILURE,
 } from "./actions";
 
 let initState = {
@@ -24,7 +24,7 @@ export const voteReducer = (state = initState, action) => {
         data: action.payload,
         error: "",
       };
-    case REQUEST_BALLOT_ERROR:
+    case REQUEST_BALLOT_FAILURE:
       return {
         ...state,
         loading: false,
@@ -44,7 +44,7 @@ export const voteReducer = (state = initState, action) => {
         data: action.payload,
         error: "",
       };
-    case DO_VOTE_ERROR:
+    case DO_VOTE_FAILURE:
       return {
         ...state,
         loading: false,

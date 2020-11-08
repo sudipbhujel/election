@@ -1,14 +1,16 @@
 import { put, takeEvery, call, all } from "redux-saga/effects";
+
+import { displayMessageAction } from "../toast/actions";
 import {
   LOAD_PROFILE,
   LOAD_PROFILE_SUCCESS,
   LOAD_PROFILE_ERROR,
   ADD_PROFILE,
   ADD_PROFILE_SUCCESS,
-  ADD_PROFILE_ERROR,
+  ADD_PROFILE_FAILURE,
   EDIT_PROFILE,
   EDIT_PROFILE_SUCCESS,
-  EDIT_PROFILE_ERROR,
+  EDIT_PROFILE_FAILURE,
 } from "./actions";
 import { loadProfileApi, addProfileApi, editProfileApi } from "./api";
 
@@ -32,12 +34,14 @@ export function* addingProfileAsync({ payload }) {
     const addedProfile = data;
 
     yield put({ type: ADD_PROFILE_SUCCESS, payload: addedProfile });
+    displayMessageAction("success", "You have successfully registered.");
   } catch (err) {
-    yield put({ type: ADD_PROFILE_ERROR, payload: err.message });
+    yield put({ type: ADD_PROFILE_FAILURE, payload: err.message });
+    err.message.map((message) => displayMessageAction("error", message));
   }
 }
 
-export function* watchAddingProductAsync() {
+export function* watchAddingProfileAsync() {
   yield takeEvery(ADD_PROFILE, addingProfileAsync);
 }
 
@@ -47,8 +51,13 @@ export function* editProfileAsync({ payload }) {
     const editedProfile = data;
 
     yield put({ type: EDIT_PROFILE_SUCCESS, payload: editedProfile });
+    displayMessageAction(
+      "success",
+      "You have successfully updated your profile."
+    );
   } catch (err) {
-    yield put({ type: EDIT_PROFILE_ERROR, payload: err.message });
+    yield put({ type: EDIT_PROFILE_FAILURE, payload: err.message });
+    displayMessageAction("error", "Error has occured.")
   }
 }
 
@@ -59,7 +68,7 @@ export function* watchEditingProductAsync() {
 export function* profileSaga() {
   yield all([
     watchloadingProfileAsync(),
-    watchAddingProductAsync(),
+    watchAddingProfileAsync(),
     watchEditingProductAsync(),
   ]);
 }

@@ -39,6 +39,13 @@ export const Info = styled.section`
   p {
     line-height: 1.4;
   }
+
+  a {
+    color: #ec0101;
+  }
+  a:hover {
+    color: #cd0a0a;
+  }
 `;
 
 export const Main = styled.section`

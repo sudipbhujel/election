@@ -4,10 +4,10 @@ import {
   LOAD_PROFILE_ERROR,
   ADD_PROFILE,
   ADD_PROFILE_SUCCESS,
-  ADD_PROFILE_ERROR,
+  ADD_PROFILE_FAILURE,
   EDIT_PROFILE,
   EDIT_PROFILE_SUCCESS,
-  EDIT_PROFILE_ERROR,
+  EDIT_PROFILE_FAILURE,
 } from "./actions";
 
 let initState = {
@@ -38,7 +38,7 @@ export const profileReducer = (state = initState, action) => {
         loading: false,
         data: action.payload,
       };
-    case ADD_PROFILE_ERROR:
+    case ADD_PROFILE_FAILURE:
       return { ...state, loading: false, error: action.payload };
     case EDIT_PROFILE:
       return { ...state, loading: true, error: "" };
@@ -48,7 +48,7 @@ export const profileReducer = (state = initState, action) => {
         loading: false,
         data: action.payload,
       };
-    case EDIT_PROFILE_ERROR:
+    case EDIT_PROFILE_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

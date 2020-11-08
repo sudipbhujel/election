@@ -1,6 +1,8 @@
 import { put, takeEvery, takeLatest, call, all } from "redux-saga/effects";
 import jwt_decode from "jwt-decode";
 
+import { displayMessageAction } from "../toast/actions";
+
 import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
@@ -45,8 +47,10 @@ export function* addingAuthTokenAsync({ payload }) {
       type: LOGIN_SUCCESS,
       payload: { access: acss, refresh: refs },
     });
+    displayMessageAction("success", "You're successfully logged in.", 10000);
   } catch (err) {
     yield put({ type: LOGIN_FAILURE, payload: err.message });
+    displayMessageAction("error", err.message, false);
   }
 }
 
@@ -56,6 +60,7 @@ export function* watchAddingAuthTokenAsync() {
 
 export function* removingAuthTokenAsync() {
   yield put({ type: LOGOUT_SUCCESS });
+  displayMessageAction("success", "You're successfully logged out.", 5000);
 }
 
 export function* watchRemovingAuthTokenAsync() {

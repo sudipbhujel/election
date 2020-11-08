@@ -1,4 +1,5 @@
 import React from "react";
+import 'react-toastify/dist/ReactToastify.css';
 
 import Main from "./pages/Main";
 

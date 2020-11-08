@@ -48,6 +48,43 @@ const GlobalStyles = createGlobalStyle`
     margin-top: 2.33em;
     margin-bottom: 2.33em;
   }
+
+  // TOAST override;
+  .Toastify__toast-container {
+    margin-top: 4.5rem;
+  }
+
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) and (max-width: 767.98px) { 
+    .Toastify__toast-container {
+      width: 60%;
+    }
+  }
+
+  // Medium devices (tablets, 768px and up)
+  @media (min-width: 768px) and (max-width: 991.98px) { 
+    .Toastify__toast-container {
+      width: 50%;
+    }
+  }
+
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) and (max-width: 1199.98px) {   .Toastify__toast-container {
+    width: 45%;
+  } }
+
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1200px) {   .Toastify__toast-container {
+    width: 40%;
+  } }
+
+  .Toastify__toast--success {
+    background-color: #4bb543;
+  }
+
+  .Toastify__toast--error {
+    background-color: #ec0101;
+  }
 `;
 
 export const Container = styled.div`
