@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
@@ -114,10 +113,10 @@ class ResetUserPasswordLinkView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         email = serializer.data.get('email')
         citizenship_number = serializer.data.get('citizenship_number')
-        current_site = get_current_site(request)
+        domain = '127.0.0.1:3000'
         user = get_user_model().objects.get(
             citizenship_number=citizenship_number, email=email)
-        reset_password_created.delay(user.id, current_site.domain)
+        reset_password_created.delay(user.id, domain)
         return Response(
             {'message': _('Password reset link is sent to your')},
             status=status.HTTP_200_OK

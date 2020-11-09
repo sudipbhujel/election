@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model, password_validation
 from django.contrib.auth.models import update_last_login
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers
@@ -61,8 +60,8 @@ class UserRegistrationSerializer(serializers.Serializer):
         data = {'face': image_data,
                 'user': user_data}
         # Celery work
-        current_site = get_current_site(self.context.get('request'))
-        user_created.delay(user.id, current_site.domain)
+        domain = '127.0.0.1:3000'
+        user_created.delay(user.id, domain)
         return data
 
 
