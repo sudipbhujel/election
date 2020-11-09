@@ -117,7 +117,6 @@ export default function LoginForm({ children }) {
   }
 
   const onSubmit = (values) => {
-    console.log(image)
     let file = dataURItoBlob(image);
     const data = new FormData();
     data.append("face_image", file, "avatar.png");

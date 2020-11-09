@@ -40,6 +40,7 @@ export default function ProfilePage({ profile }) {
             <Link to="/profile/edit">
               <Profile.Button>Edit Profile</Profile.Button>
             </Link>
+            <Link to="/user/change/password">Change Password</Link>
           </Profile.Edit>
         </Profile.Header>
         <Navbar>

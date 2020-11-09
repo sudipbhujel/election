@@ -1,4 +1,6 @@
 import api from "../config";
+import apiAuth from "../config.auth";
+import authHeader from "../../services/auth-header";
 
 export const addAuthTokenApi = async (creds) => {
   try {
@@ -60,5 +62,22 @@ export const resetPasswordConfirmPostApi = async (creds) => {
     return response.data;
   } catch (e) {
     throw Error(e.response.data.message || e.response.statusText);
+  }
+};
+
+export const changePasswordApi = async (creds) => {
+  try {
+    const response = await apiAuth().patch(
+      "/api/user/password_change/",
+      creds,
+      { headers: authHeader() }
+    );
+    return response.data;
+  } catch (e) {
+    throw Error(
+      ...(e.response.data.old_password ||
+        e.response.data.non_field_errors ||
+        e.response.statusText)
+    );
   }
 };

@@ -5,7 +5,8 @@ import {
     authReducer, 
     registerReducer, 
     activateReducer,
-    resetReducer
+    resetReducer,
+    changePWDReducer,
 } from './auth/reducers';
 import { profileReducer } from './profile/reducers';
 import { partiesReducer } from './party/reducers';
@@ -40,6 +41,7 @@ const store = combineReducers({
     vote: voteReducer,
     activate: activateReducer,
     reset: resetReducer,
+    changepwd: changePWDReducer
 });
 
 export default store;

@@ -5,6 +5,7 @@ import {
   requestResetPasswordAction,
   requestResetPasswordConfirmAction,
   requestResetPasswordConfirmPostAction,
+  requestChangePasswordAction,
 } from "../../store";
 
 function useAuths() {
@@ -22,6 +23,10 @@ function useAuths() {
       dispatch(requestResetPasswordConfirmAction(creds)),
     requestResetPasswordConfirmPost: (creds) =>
       dispatch(requestResetPasswordConfirmPostAction(creds)),
+
+    changepwd: useSelector((state) => state.changepwd),
+    requestChangePassword: (creds) =>
+      dispatch(requestChangePasswordAction(creds)),
   };
 }
 

@@ -32,6 +32,10 @@ export const RESET_PASSWORD_CONFIRM_DONE_SUCCESS =
 export const RESET_PASSWORD_CONFIRM_DONE_FAILURE =
   "RESET_PASSWORD_CONFIRM_DONE_FAILURE";
 
+export const PASSWORD_CHANGE_REQUEST = "PASSWORD_CHANGE_REQUEST";
+export const PASSWORD_CHANGE_SUCCESS = "PASSWORD_CHANGE_SUCCESS";
+export const PASSWORD_CHANGE_FAILURE = "PASSWORD_CHANGE_FAILURE";
+
 export const requestSignUpAction = (creds) => ({
   type: SIGNUP_REQUEST,
   payload: creds,
@@ -68,5 +72,10 @@ export const requestResetPasswordConfirmAction = (creds) => ({
 
 export const requestResetPasswordConfirmPostAction = (creds) => ({
   type: RESET_PASSWORD_CONFIRM_DONE_REQUEST,
+  payload: creds,
+});
+
+export const requestChangePasswordAction = (creds) => ({
+  type: PASSWORD_CHANGE_REQUEST,
   payload: creds,
 });

@@ -27,6 +27,9 @@ import {
   RESET_PASSWORD_CONFIRM_DONE_REQUEST,
   RESET_PASSWORD_CONFIRM_DONE_SUCCESS,
   RESET_PASSWORD_CONFIRM_DONE_FAILURE,
+  PASSWORD_CHANGE_REQUEST,
+  PASSWORD_CHANGE_SUCCESS,
+  PASSWORD_CHANGE_FAILURE,
 } from "./actions";
 import {
   addAuthTokenApi,
@@ -35,6 +38,7 @@ import {
   resetPasswordApi,
   resetPasswordConfirmApi,
   resetPasswordConfirmPostApi,
+  changePasswordApi,
 } from "./api";
 
 export function* addingNewUserAsync({ payload }) {
@@ -178,6 +182,27 @@ export function* watchresetingPasswordConfirmPostAsync() {
   );
 }
 
+export function* changingPasswordAsync({ payload }) {
+  try {
+    const data = yield call(changePasswordApi, payload);
+    yield put({ type: PASSWORD_CHANGE_SUCCESS, payload: data });
+    displayMessageAction(
+      "success",
+      "You've successfully changed your password."
+    );
+  } catch (err) {
+    yield put({
+      type: PASSWORD_CHANGE_FAILURE,
+      payload: err.message,
+    });
+    displayMessageAction("error", err.message);
+  }
+}
+
+export function* watchchangingPasswordAsync() {
+  yield takeLatest(PASSWORD_CHANGE_REQUEST, changingPasswordAsync);
+}
+
 export function* authSaga() {
   yield all([
     watchAddingNewUserAsync(),
@@ -188,5 +213,6 @@ export function* authSaga() {
     watchresetingPasswordAsync(),
     watchresetingPasswordConfirmAsync(),
     watchresetingPasswordConfirmPostAsync(),
+    watchchangingPasswordAsync(),
   ]);
 }

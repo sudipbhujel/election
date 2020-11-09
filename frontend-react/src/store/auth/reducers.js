@@ -22,6 +22,9 @@ import {
   RESET_PASSWORD_CONFIRM_DONE_REQUEST,
   RESET_PASSWORD_CONFIRM_DONE_SUCCESS,
   RESET_PASSWORD_CONFIRM_DONE_FAILURE,
+  PASSWORD_CHANGE_REQUEST,
+  PASSWORD_CHANGE_SUCCESS,
+  PASSWORD_CHANGE_FAILURE,
 } from "./actions";
 
 let initState = {
@@ -171,7 +174,7 @@ let initReset = {
   error: void 0,
 };
 
-export const resetReducer = (state = initActivate, action) => {
+export const resetReducer = (state = initReset, action) => {
   switch (action.type) {
     case RESET_PASSWORD_REQUEST:
       return {
@@ -237,6 +240,41 @@ export const resetReducer = (state = initActivate, action) => {
         ...state,
         loading: false,
         success: false,
+        data: [],
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+let initChangePWD = {
+  loading: false,
+  data: [],
+  error: void 0,
+};
+
+export const changePWDReducer = (state = initChangePWD, action) => {
+  switch (action.type) {
+    case PASSWORD_CHANGE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        data: [],
+        error: "",
+      };
+    case PASSWORD_CHANGE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+        error: "",
+      };
+    case PASSWORD_CHANGE_FAILURE:
+      return {
+        ...state,
+        loading: false,
         data: [],
         error: action.payload,
       };

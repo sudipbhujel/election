@@ -23,6 +23,7 @@ import Footer from "../components/Footer";
 import UserActivate from "./user/activate";
 import UserResetPassword from "./user/reset/password";
 import UserPasswordResetConfirm from "./user/reset/password/confirm";
+import UserChangePassword from "./user/change/password";
 
 function Main(props) {
   const { auth, vote } = props;
@@ -94,6 +95,7 @@ function Main(props) {
       token={match.params.token}
     />
   );
+  const PasswordChangePage = () => <UserChangePassword />;
 
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
@@ -181,6 +183,12 @@ function Main(props) {
           isAuthenticated={auth.isAuthenticated}
           path="/vote/ballot"
           component={BallotPage}
+        />
+        <PrivateRoute
+          exact
+          isAuthenticated={auth.isAuthenticated}
+          path="/user/change/password"
+          component={PasswordChangePage}
         />
 
         {/* Not found */}

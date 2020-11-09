@@ -75,7 +75,14 @@ export const LoginInfoParagraph = styled.p`
 
 export const Edit = styled.div`
   flex: 2;
-  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  a {
+    padding: 0.5rem;
+  }
 `;
 
 export const Button = styled.button`
