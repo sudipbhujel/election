@@ -1,28 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Card from "../../components/Card";
-import { Container } from "../../globalStyles";
+import { Container, Button } from "../../globalStyles";
+import {
+  HeaderSection,
+  ImageSection,
+  InfoSection,
+  StatusSection,
+} from "../../components/Render/styles";
 
 export default function Party(props) {
   return (
-    <Container>
-      <Card.Group>
-        {props.parties.map((party) => (
-          <Card key={party.id}>
-            <Card.Image src={party.logo} alt="logo" />
-            <Card.Title>{party.name}</Card.Title>
-            <Card.SubTitle>{party.party_name}</Card.SubTitle>
-            <Card.Description>
-              {party.slogan}...{" "}
-              <Link to={`/party/${party.id}`}>more&gt;&gt;</Link>
-            </Card.Description>
-            <Link to={`/party/${party.id}`}>
-              <Card.Button>More&gt;&gt;</Card.Button>
-            </Link>
-          </Card>
-        ))}
-      </Card.Group>
+    <Container style={{ marginBottom: "4rem" }}>
+      {props.parties.map((party) => (
+        <div key={party.id}>
+          <HeaderSection>
+            <ImageSection>
+              <img
+                src={party.logo}
+                style={{ minWidth: "200px", maxWidth: "250px" }}
+                alt="Party Image"
+              />
+            </ImageSection>
+            <InfoSection>
+              <h2>{party.name}</h2>
+              <p>{party.slogan}</p>
+            </InfoSection>
+            <StatusSection>
+              <Link to={`/party/${party.id}`}>
+                <Button>More &gt;&gt;</Button>
+              </Link>
+            </StatusSection>
+          </HeaderSection>
+        </div>
+      ))}
     </Container>
   );
 }

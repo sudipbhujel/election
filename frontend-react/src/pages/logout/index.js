@@ -2,7 +2,7 @@ import React from "react";
 
 import useLogout from "./useLogout";
 
-import { Button } from "../../globalStyles";
+import { Container, Button } from "../../globalStyles";
 
 export default function Logout() {
   const { removeAuthToken } = useLogout();
@@ -11,10 +11,10 @@ export default function Logout() {
     removeAuthToken();
   };
   return (
-    <div>
-      <p>Do you want to logout?</p>
+    <Container>
+      <h3>Do you want to logout?</h3>
       <Button onClick={handleClick}>Yes</Button>
       {/* <Button>No</Button> */}
-    </div>
+    </Container>
   );
 }

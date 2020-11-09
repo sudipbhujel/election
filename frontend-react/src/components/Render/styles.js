@@ -1,5 +1,7 @@
 import styled from "styled-components/macro";
 
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+
 export const HeaderSection = styled.section`
   margin-top: 1rem;
   display: flex;
@@ -23,12 +25,14 @@ export const ImageSection = styled.div`
 `;
 
 export const InfoSection = styled.div`
-  flex: 1;
+  flex: 2;
   color: rgba(0, 0, 0, 0.7);
   padding: 0.5rem;
 
   h2 {
     color: #1a1c20;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
 
   h4 {
@@ -88,4 +92,18 @@ export const Styles = styled.div`
     margin-right: 0;
     padding-left: 40px;
   }
+`;
+
+export const VerfiedIcon = styled(FaCheckCircle)`
+  color: #4caf50;
+  background-color: #fff;
+  margin: auto 5px;
+  font-size: 22px;
+`;
+
+export const UnverfiedIcon = styled(FaTimesCircle)`
+  color: #cf1b1b;
+  background-color: #fff;
+  margin: auto 5px;
+  font-size: 22px;
 `;

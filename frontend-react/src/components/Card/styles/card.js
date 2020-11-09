@@ -40,12 +40,12 @@ export const SubTitle = styled.h2`
   color: #373a40;
   margin-top: 5px;
   font-size: 0.8rem;
+  font-weight: normal;
 `;
 
 export const Description = styled.p`
   margin: 1rem 2rem;
   font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.7);
 `;
 
 export const Button = styled.button`
@@ -62,5 +62,4 @@ export const Button = styled.button`
 export const Group = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 `;

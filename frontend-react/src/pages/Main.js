@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import Ballot from "../pages/vote/ballot";
-import Candidates from "../candidates/Candidates";
 import Navbar from "../components/Navbar";
 import About from "./about";
 import FillFormPage from "./election/fill";
@@ -24,6 +23,8 @@ import UserActivate from "./user/activate";
 import UserResetPassword from "./user/reset/password";
 import UserPasswordResetConfirm from "./user/reset/password/confirm";
 import UserChangePassword from "./user/change/password";
+import Candidate from "./candidate";
+import CandidateDetail from "./candidate/detail";
 
 function Main(props) {
   const { auth, vote } = props;
@@ -59,7 +60,16 @@ function Main(props) {
     />
   );
 
-  const CandidateComponent = () => <Candidates candidates={candidates} />;
+  const CandidatePage = () => <Candidate candidates={candidates} />;
+  const CandidateDetailPage = ({ match }) => (
+    <CandidateDetail
+      candidate={
+        candidates.filter(
+          (candidate) => candidate.id === match.params.candidateId
+        )[0]
+      }
+    />
+  );
 
   const PartyPage = () => <Party parties={parties} />;
   const Profile = () => <ProfilePage profile={profile} />;
@@ -95,7 +105,13 @@ function Main(props) {
   const PasswordChangePage = () => <UserChangePassword />;
 
   const NoMatchPage = () => {
-    return <h3>404 - Not found</h3>;
+    return (
+      <>
+        <h2 style={{ color: "#cf1b1b" }}>Oops!</h2>
+        <h1>404</h1>
+        <h3 style={{ fontWeight: "normal" }}>Page Not Found</h3>
+      </>
+    );
   };
 
   return (
@@ -107,7 +123,11 @@ function Main(props) {
         <PublicRoute path="/about" component={About} />
         <PublicRoute path="/parties" component={PartyPage} />
         <PublicRoute path="/party/:partyId" component={PartyWithId} />
-        <PublicRoute path="/candidates" component={CandidateComponent} />
+        <PublicRoute path="/candidates" component={CandidatePage} />
+        <PublicRoute
+          path="/candidate/:candidateId"
+          component={CandidateDetailPage}
+        />
         <PublicRoute
           isAuthenticated={auth.isAuthenticated}
           restricted

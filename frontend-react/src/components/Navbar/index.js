@@ -60,8 +60,8 @@ export default function Navbar({ isAuthenticated, profile }) {
             </NavLinks>
           </NavItem>
           <NavItem>
-            <NavLinks to="/about" onClick={closeMobileMenu}>
-              About
+            <NavLinks to="/candidates" onClick={closeMobileMenu}>
+              Candidates
             </NavLinks>
           </NavItem>
           <NavItemBtn>

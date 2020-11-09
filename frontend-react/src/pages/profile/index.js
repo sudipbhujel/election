@@ -18,7 +18,7 @@ import { Container } from "../../globalStyles";
 
 export default function ProfilePage({ profile }) {
   return (
-    <Container>
+    <Container style={{marginBottom:"2rem"}}>
       <Profile>
         <Profile.Header>
           <Profile.AvatarSection>

@@ -8,8 +8,9 @@ import {
   InfoSection,
   StatusSection,
   Styles,
-} from "./styles";
+} from "../../../components/Render/styles";
 import Spinner from "../../../components/Spinner";
+import { Link } from "react-router-dom";
 
 const DOMPurify = createDOMPurify(window);
 
@@ -21,7 +22,11 @@ export default function PartyDetail({ party, isLoading, error }) {
       ) : (
         <>
           {typeof party === "undefined" ? (
-            <Spinner />
+            <>
+              <h2 style={{ color: "#cf1b1b" }}>Oops!</h2>
+              <h1>404</h1>
+              <h3 style={{ fontWeight: "normal" }}>Page Not Found</h3>
+            </>
           ) : (
             <>
               <HeaderSection>
@@ -43,16 +48,19 @@ export default function PartyDetail({ party, isLoading, error }) {
                     __html: DOMPurify.sanitize(party.description),
                   }}
                 />
+                <h2>Slogan</h2>
                 <div
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(party.slogan),
                   }}
                 />
+                <h2>Manifesto</h2>
                 <div
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(party.manifesto),
                   }}
                 />
+                <h2>Plans</h2>
                 <div
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(party.plans),
