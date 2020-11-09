@@ -20,6 +20,9 @@ import useCandidates from "./useCandidates";
 import useParties from "./useParties";
 import useProfile from "./useProfile";
 import Footer from "../components/Footer";
+import UserActivate from "./user/activate";
+import UserResetPassword from "./user/reset/password";
+import UserPasswordResetConfirm from "./user/reset/password/confirm";
 
 function Main(props) {
   const { auth, vote } = props;
@@ -81,6 +84,16 @@ function Main(props) {
   const SignupPage = () => <Signup />;
   const VotingPage = () => <Vote candidates={candidates} />;
   const BallotPage = () => <Ballot candidates={candidates} />;
+  const UserActivatePage = ({ match }) => (
+    <UserActivate uid={match.params.uid} token={match.params.token} />
+  );
+  const UserPasswordResetPage = () => <UserResetPassword />;
+  const UserPasswordResetConfirmPage = ({ match }) => (
+    <UserPasswordResetConfirm
+      uid={match.params.uid}
+      token={match.params.token}
+    />
+  );
 
   const NoMatchPage = () => {
     return <h3>404 - Not found</h3>;
@@ -107,6 +120,25 @@ function Main(props) {
           restricted
           path="/signup"
           component={SignupPage}
+        />
+        <PublicRoute
+          isAuthenticated={auth.isAuthenticated}
+          restricted
+          path="/user/activate/:uid/:token"
+          component={UserActivatePage}
+        />
+        <PublicRoute
+          exact
+          isAuthenticated={auth.isAuthenticated}
+          restricted
+          path="/user/reset/password"
+          component={UserPasswordResetPage}
+        />
+        <PublicRoute
+          isAuthenticated={auth.isAuthenticated}
+          restricted
+          path="/user/reset/password/confirm/:uid/:token"
+          component={UserPasswordResetConfirmPage}
         />
 
         {/* Private Route */}

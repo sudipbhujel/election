@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
 
 import { candidatesReducer } from './candidate/reducers';
-import { authReducer, registerReducer } from './auth/reducers';
+import { 
+    authReducer, 
+    registerReducer, 
+    activateReducer,
+    resetReducer
+} from './auth/reducers';
 import { profileReducer } from './profile/reducers';
 import { partiesReducer } from './party/reducers';
 import { voteReducer } from './vote/reducers';
@@ -33,6 +38,8 @@ const store = combineReducers({
     profile: profileReducer,
     parties: partiesReducer,
     vote: voteReducer,
+    activate: activateReducer,
+    reset: resetReducer,
 });
 
 export default store;
