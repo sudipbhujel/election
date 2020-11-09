@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import Error from "../../components/Error";
 import LoginForm from "./LoginForm";

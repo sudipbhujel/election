@@ -86,7 +86,6 @@ export default function UserResetPassword() {
               <Button type="submit" disabled={submitting} primary>
                 Submit
               </Button>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
             </Form.Container>
           </Form>
         )}

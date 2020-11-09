@@ -43,7 +43,7 @@ export default function Navbar({ isAuthenticated, profile }) {
       <NavbarContainer>
         <NavLogo to="/" onClick={closeMobileMenu}>
           <NavIcon src={logo} />
-          Election
+          <h1>Election</h1>
         </NavLogo>
         <MobileIcon onClick={handleClick}>
           {click ? <FaTimes /> : <FaBars />}
@@ -55,18 +55,26 @@ export default function Navbar({ isAuthenticated, profile }) {
             </NavLinks>
           </NavItem>
           <NavItem>
-            <NavLinks to="/parties" onClick={closeMobileMenu}>
+            <NavLinks
+              to="/parties"
+              onClick={closeMobileMenu}
+              activeStyle={{ color: "#4d80e4" }}
+            >
               Parties
             </NavLinks>
           </NavItem>
           <NavItem>
-            <NavLinks to="/candidates" onClick={closeMobileMenu}>
+            <NavLinks
+              to="/candidates"
+              onClick={closeMobileMenu}
+              activeStyle={{ color: "#4d80e4" }}
+            >
               Candidates
             </NavLinks>
           </NavItem>
           <NavItemBtn>
             {isAuthenticated ? (
-              <ProfileLink to="/profile">
+              <ProfileLink to="/profile" activeStyle={{ color: "#4d80e4" }}>
                 <FaUserAlt /> &nbsp;
                 {profile.first_name} {profile.last_name}
               </ProfileLink>

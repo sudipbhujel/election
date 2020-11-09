@@ -316,7 +316,6 @@ export default function SignupForm(props) {
             >
               Submit
             </Button>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </Form.Container>
         </Form>
       )}

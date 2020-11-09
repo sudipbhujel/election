@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
 
 import { FaUser, FaKey } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import Form from "../../components/Form";
 import Webcam from "../../components/Webcam";
@@ -209,7 +210,9 @@ export default function LoginForm({ children }) {
             >
               Submit
             </Button>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
+            <Link to="/signup">Don't have account</Link>
+            <br />
+            <Link to="/user/reset/password">Forgot Password</Link>
           </Form.Container>
         </Form>
       )}

@@ -376,7 +376,6 @@ export default function ElectionForm(props) {
             <Button type="submit" disabled={submitting}>
               Submit
             </Button>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </Form.Container>
         </Form>
       )}

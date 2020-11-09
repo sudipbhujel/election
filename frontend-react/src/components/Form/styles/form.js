@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 export const Container = styled.div`
   max-width: ${({ width }) => width};
   padding: 1em 3em 2em 3em;
-  margin: 0em auto;
+  margin: 1rem auto 2rem auto;
   background-color: #fff;
   border-radius: 4.2px;
   box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);

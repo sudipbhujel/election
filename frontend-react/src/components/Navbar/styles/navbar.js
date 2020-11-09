@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Container } from "../../../globalStyles";
 
 export const Nav = styled.nav`
@@ -21,7 +21,7 @@ export const NavbarContainer = styled(Container)`
   ${Container}
 `;
 
-export const NavLogo = styled(Link)`
+export const NavLogo = styled(NavLink)`
   color: #000;
   justify-self: flex-start;
   cursor: pointer;
@@ -29,6 +29,10 @@ export const NavLogo = styled(Link)`
   font-size: 2rem;
   display: flex;
   align-items: center;
+
+  h1 {
+    font-size: 1.8rem;
+  }
 `;
 
 export const NavIcon = styled.img`
@@ -94,7 +98,7 @@ export const NavItemBtn = styled.li`
   }
 `;
 
-export const NavLinks = styled(Link)`
+export const NavLinks = styled(NavLink)`
   color: #000;
   display: flex;
   align-items: center;
@@ -125,7 +129,7 @@ export const NavBtnLink = styled(Link)`
   outline: none;
 `;
 
-export const ProfileLink = styled(Link)`
+export const ProfileLink = styled(NavLink)`
   text-decoration: none;
   color: #000;
 `;
