@@ -246,7 +246,7 @@ class Party(models.Model):
                           primary_key=True, editable=False)
     name = models.CharField(_('name'), max_length=25)
     description = RichTextField(_('description'))
-    slogan = RichTextField(_('slogan'))
+    slogan = models.TextField(_('slogan'))
     logo = models.ImageField(
         _('logo'), upload_to=party_logo_image_file_path)
     manifesto = RichTextField(_('manifesto'))
