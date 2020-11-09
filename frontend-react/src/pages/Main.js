@@ -37,11 +37,6 @@ function Main(props) {
 
   const { candidates, getCandidates } = useCandidates();
 
-  useEffect(() => {
-    getProfile();
-    getCandidates();
-  }, [getProfile, getCandidates]);
-
   const {
     parties,
     isLoading: partyLoading,
@@ -50,8 +45,10 @@ function Main(props) {
   } = useParties();
 
   useEffect(() => {
+    getProfile();
+    getCandidates();
     getParties();
-  }, [getParties]);
+  }, [getProfile, getCandidates, getParties]);
 
   const HomeComponent = () => (
     <Home

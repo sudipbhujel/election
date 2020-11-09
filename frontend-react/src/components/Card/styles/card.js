@@ -45,6 +45,7 @@ export const SubTitle = styled.h2`
 export const Description = styled.p`
   margin: 1rem 2rem;
   font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.7);
 `;
 
 export const Button = styled.button`

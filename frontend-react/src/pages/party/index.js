@@ -14,7 +14,8 @@ export default function Party(props) {
             <Card.Title>{party.name}</Card.Title>
             <Card.SubTitle>{party.party_name}</Card.SubTitle>
             <Card.Description>
-              {party.description.substring(0, 60)}...more&gt;&gt;
+              {party.slogan}...{" "}
+              <Link to={`/party/${party.id}`}>more&gt;&gt;</Link>
             </Card.Description>
             <Link to={`/party/${party.id}`}>
               <Card.Button>More&gt;&gt;</Card.Button>
