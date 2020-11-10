@@ -85,6 +85,64 @@ const GlobalStyles = createGlobalStyle`
   .Toastify__toast--error {
     background-color: #ec0101;
   }
+
+  .modal {
+    // position: absolute;
+    // top: 6rem;
+    width: 80%;
+    margin: 6rem auto;
+    // left: 4rem;
+    // right: 4rem;
+    // bottom: 4rem;
+    // background-color: red;
+    outline: none;
+    border: none;
+
+    .content {
+      display: flex;
+      // align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+      }
+
+      .close {
+        color: #ffffff;
+        cursor: pointer;
+        padding: 0 0.5rem;
+        font-size: 1.5rem;
+      }
+    }
+
+    .controls {
+      margin: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .upload label {
+        color: #fff;
+        margin: 0 0.4rem;
+        cursor: pointer;
+      }
+
+      button {
+        margin: 0 0.4rem;
+      }
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.8);
+  }
 `;
 
 export const Container = styled.div`
@@ -133,6 +191,15 @@ const dangerBtn = css`
   }
 `;
 
+const blackBtn = css`
+  background-color: #383d43;
+
+  &:hover {
+    transition: all 0.3s ease-out;
+    background-color: #555555;
+  }
+`;
+
 export const Button = styled.button`
   background-color: #ffffff;
   border: none;
@@ -148,6 +215,8 @@ export const Button = styled.button`
       return `${primaryBtn}`;
     } else if (props.danger) {
       return `${dangerBtn}`;
+    } else if (props.black) {
+      return `${blackBtn}`;
     } else {
       return `${primaryBtn}`;
     }

@@ -18,7 +18,7 @@ export const Header = styled.div`
   background-color: rgba(247, 247, 255, 0.5);
   padding: 3em 0;
   h5 {
-    // font-size: 16px;
+    font-size: 1em;
     font-weight: normal;
     margin-bottom: 0;
   }
@@ -79,6 +79,9 @@ export const FeatureSection = styled.section`
     color: rgba(0, 0, 0, 0.6);
     text-align: center;
     line-height: 1.5;
+  }
+  h5 {
+    font-size: 1em;
   }
 
   ${Column} p {

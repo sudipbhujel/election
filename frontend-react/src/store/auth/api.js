@@ -7,7 +7,7 @@ export const addAuthTokenApi = async (creds) => {
     const response = await api.post("/api/user/token/", creds);
     return response.data;
   } catch (e) {
-    throw Error(e.response.data.detail);
+    throw Error(e.response.data.detail || e.response.statusText);
   }
 };
 

@@ -72,7 +72,7 @@ function Main(props) {
   );
 
   const PartyPage = () => <Party parties={parties} />;
-  const Profile = () => <ProfilePage profile={profile} />;
+  const Profile = () => <ProfilePage profile={profile} editProfile={editProfile} />;
 
   const PartyWithId = ({ match }) => (
     <PartyDetail

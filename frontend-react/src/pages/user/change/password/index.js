@@ -55,7 +55,7 @@ export default function UserChangePassword(props) {
         validate={validate}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <Form onSubmit={handleSubmit} style={{ marginTop: "1rem" }}>
-            <Form.Container width="40rem">
+            <Form.Container width="35rem">
               <Form.Header>Password Change</Form.Header>
 
               <Form.Row>

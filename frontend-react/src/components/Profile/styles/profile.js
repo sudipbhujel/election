@@ -21,6 +21,27 @@ export const AvatarSection = styled.div`
   flex: 1;
   align-self: center;
   padding: 0 10px;
+  position: relative;
+
+  div {
+    position: absolute;
+    right: 10%;
+    top: -9px;
+    color: green;
+    cursor: pointer;
+    display: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+
+    box-shadow: 1px 1px 3px #ccc;
+  }
+
+  &:hover div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const Avatar = styled.img`

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import ReactModal from "react-modal";
 
 import {
   FaBirthdayCake,
@@ -11,18 +12,137 @@ import {
   FaStickyNote,
   FaMale,
   FaFemale,
+  FaPencilAlt,
+  FaTimes,
+  FaUpload,
 } from "react-icons/fa";
 
 import Profile, { Navbar } from "../../components/Profile";
 import { Container } from "../../globalStyles";
+import ImageUpdate from "../../components/ImageUpdate";
+import { Button } from "../../globalStyles";
 
-export default function ProfilePage({ profile }) {
+export default function ProfilePage({ profile, editProfile }) {
+  const [modalAvatar, setModalAvatar] = useState(false);
+  const [modalCitizenship, setModalCitizenship] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [citizenship, setCitizenship] = useState(null);
+
+  function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    let byteString;
+    if (dataURI.split(",")[0].indexOf("base64") >= 0)
+      byteString = atob(dataURI.split(",")[1]);
+    else byteString = unescape(dataURI.split(",")[1]);
+
+    // separate out the mime component
+    let mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+    // write the bytes of the string to a typed array
+    let ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+  }
+
+  const onAvatarChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setAvatar(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
+  const onCitizenshipChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setCitizenship(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
+  const handleAvatar = (e) => {
+    const profileImg = dataURItoBlob(avatar);
+    const data = new FormData();
+    data.append("image", profileImg, "avatar.png");
+    editProfile(data);
+    e.preventDefault();
+  };
+
+  const handleCitizenship = (e) => {
+    const citImg = dataURItoBlob(citizenship);
+    const data = new FormData();
+    data.append("citizenship", citImg, "citizenship.png");
+    editProfile(data);
+    e.preventDefault();
+  };
+
+  const ImageUpdateModal = ({
+    modal,
+    setModal,
+    image,
+    handleSubmit,
+    onChange,
+  }) => (
+    <ReactModal
+      isOpen={!!modal}
+      className="modal"
+      overlayClassName="overlay"
+      ariaHideApp={false}
+    >
+      <div className="content">
+        <img src={image} alt="" />
+
+        <div className="close" onClick={() => setModal(false)}>
+          <FaTimes />
+        </div>
+      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="controls">
+          <div className="upload">
+            <input
+              type="file"
+              onChange={onChange}
+              placeholder="Citizenship Image"
+              accept="image/*"
+              id="avatar"
+              style={{ display: "none" }}
+            />
+            <label htmlFor="avatar">
+              <FaUpload />
+            </label>
+          </div>
+          <Button primary>Save</Button>
+          <Button danger onClick={() => setModal(false)}>
+            Cancel
+          </Button>
+        </div>
+      </form>
+    </ReactModal>
+  );
+
   return (
-    <Container style={{marginBottom:"2rem"}}>
+    <Container style={{ marginBottom: "2rem" }}>
       <Profile>
         <Profile.Header>
           <Profile.AvatarSection>
             <Profile.Avatar src={profile.image} alt="avatar" />
+            <div onClick={() => setModalAvatar(true)}>
+              <FaPencilAlt />
+            </div>
+            <ImageUpdateModal
+              modal={modalAvatar}
+              setModal={setModalAvatar}
+              image={avatar || profile.image}
+              handleSubmit={handleAvatar}
+              onChange={onAvatarChange}
+            />
           </Profile.AvatarSection>
           <Profile.Info>
             <Profile.Name>
@@ -38,7 +158,7 @@ export default function ProfilePage({ profile }) {
           <Profile.LoginInfo>{profile.last_login}</Profile.LoginInfo>
           <Profile.Edit>
             <Link to="/profile/edit">
-              <Profile.Button>Edit Profile</Profile.Button>
+              <Button black>Edit Profile</Button>
             </Link>
             <Link to="/user/change/password">Change Password</Link>
           </Profile.Edit>
@@ -150,6 +270,23 @@ export default function ProfilePage({ profile }) {
               <Profile.ItemDetail>
                 <Profile.ItemTitle>Citizenship</Profile.ItemTitle>
                 <Profile.Citizenship src={profile.citizenship} alt="" />
+                {profile.citizenship && (
+                  <>
+                    <div
+                      onClick={() => setModalCitizenship(true)}
+                      style={{ cursor: "pointer", color: "green" }}
+                    >
+                      <FaPencilAlt /> Edit
+                    </div>
+                    <ImageUpdateModal
+                      modal={modalCitizenship}
+                      setModal={setModalCitizenship}
+                      image={citizenship || profile.citizenship}
+                      handleSubmit={handleCitizenship}
+                      onChange={onCitizenshipChange}
+                    />
+                  </>
+                )}
               </Profile.ItemDetail>
             </Profile.InfoItem>
             {/* Father's Name */}
