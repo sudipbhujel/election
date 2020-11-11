@@ -217,8 +217,8 @@ class Profile(models.Model):
     ward = models.IntegerField(_('ward number'))
     tole = models.CharField(_('tole'), max_length=30)
 
-    # # Contact Information
-    # phone = models.IntegerField(_('contact number'))
+    # Contact Information
+    phone = models.CharField(_('contact number'), max_length=15)
 
     # Dates
     date_submitted = models.DateTimeField(

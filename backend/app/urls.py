@@ -10,5 +10,7 @@ urlpatterns = [
     path('api/vote/', include('vote.urls')),
     path('api/candidates/', include('candidate.urls')),
     path('api/parties/', include('party.urls')),
+    path('api/state/', include('state.urls')),
+    path('api/stats/', include('stats.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

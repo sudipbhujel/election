@@ -76,6 +76,7 @@ class ProfileAdmin(admin.ModelAdmin):
                                          'citizenship')}),
         (_('Images'), {'fields': ('image', 'id_card')}),
         (_('Parents'), {'fields': ('father_name', 'mother_name')}),
+        (_('Contact Details'), {'fields': ('phone',)}),
         (_('Address info'), {
          'fields': (('province', 'district'), ('municipality', 'ward'),
                     'tole')}),
