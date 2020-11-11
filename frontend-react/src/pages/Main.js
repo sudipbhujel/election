@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, Link } from "react-router-dom";
 
 import Ballot from "../pages/vote/ballot";
 import Navbar from "../components/Navbar";
@@ -27,7 +27,10 @@ import Candidate from "./candidate";
 import CandidateDetail from "./candidate/detail";
 import Dashboard from "./dashboard";
 
+import { Button } from "../globalStyles";
+
 import { loadStatsAction, loadStateAction } from "../store";
+import Accordoin from "../components/Accordion";
 
 function Main(props) {
   const { auth, vote } = props;
@@ -141,6 +144,47 @@ function Main(props) {
   return (
     <>
       <Navbar isAuthenticated={auth.isAuthenticated} profile={profile} />
+
+      {auth.isAuthenticated &&
+        props.state.data.state === 0 &&
+        profile.first_name && (
+          <Accordoin title="Fill Form">
+            <Accordoin.Body>
+              <div>
+                <p>You didn't registered yet. Please fill the form.</p>
+                <Link to="election/fill_form">
+                  <Button black>Fill form</Button>
+                </Link>
+              </div>
+            </Accordoin.Body>
+          </Accordoin>
+        )}
+
+      {auth.isAuthenticated && props.state.data.state === 1 && (
+        <Accordoin title="Information">
+          <Accordoin.Body>
+            <div>
+              <p>You can vote once the voting phase is started.</p>
+            </div>
+          </Accordoin.Body>
+        </Accordoin>
+      )}
+
+      {auth.isAuthenticated && props.state.data.state === 2 && (
+        <Accordoin title="See results">
+          <Accordoin.Body>
+            <div>
+              <p>
+                Voting Phase is ended. Click on the button to see the result.
+              </p>
+              <Link to="/dashboard">
+                <Button black>Dashboard</Button>
+              </Link>
+            </div>
+          </Accordoin.Body>
+        </Accordoin>
+      )}
+
       <Switch>
         {/* Public Route */}
         <PublicRoute exact path="/" component={HomeComponent} />
@@ -183,10 +227,7 @@ function Main(props) {
           path="/user/reset/password/confirm/:uid/:token"
           component={UserPasswordResetConfirmPage}
         />
-        <PublicRoute 
-        path="/dashboard" 
-        component={DashboardPage} 
-        />
+        <PublicRoute path="/dashboard" component={DashboardPage} />
 
         {/* Private Route */}
         <PrivateRoute
