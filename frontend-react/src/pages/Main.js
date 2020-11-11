@@ -25,6 +25,9 @@ import UserPasswordResetConfirm from "./user/reset/password/confirm";
 import UserChangePassword from "./user/change/password";
 import Candidate from "./candidate";
 import CandidateDetail from "./candidate/detail";
+import Dashboard from "./dashboard";
+
+import { loadStatsAction, loadStateAction } from "../store";
 
 function Main(props) {
   const { auth, vote } = props;
@@ -51,6 +54,11 @@ function Main(props) {
     getParties();
   }, [getProfile, getCandidates, getParties]);
 
+  useEffect(() => {
+    props.getStats();
+    props.getState();
+  }, []);
+
   const HomeComponent = () => (
     <Home
       // isAuthenticated={auth.isAuthenticated}
@@ -72,7 +80,9 @@ function Main(props) {
   );
 
   const PartyPage = () => <Party parties={parties} />;
-  const Profile = () => <ProfilePage profile={profile} editProfile={editProfile} />;
+  const Profile = () => (
+    <ProfilePage profile={profile} editProfile={editProfile} />
+  );
 
   const PartyWithId = ({ match }) => (
     <PartyDetail
@@ -103,6 +113,20 @@ function Main(props) {
     />
   );
   const PasswordChangePage = () => <UserChangePassword />;
+  const DashboardPage = () => (
+    <Dashboard
+      candidates={candidates}
+      winner={
+        candidates.filter(
+          (candidate) =>
+            candidate.vote_count ===
+            Math.max(...candidates.map((candidate) => candidate.vote_count))
+        )[0]
+      }
+      stats={props.stats.data}
+      state={props.state.data}
+    />
+  );
 
   const NoMatchPage = () => {
     return (
@@ -158,6 +182,10 @@ function Main(props) {
           restricted
           path="/user/reset/password/confirm/:uid/:token"
           component={UserPasswordResetConfirmPage}
+        />
+        <PublicRoute 
+        path="/dashboard" 
+        component={DashboardPage} 
         />
 
         {/* Private Route */}
@@ -220,9 +248,16 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
   vote: state.vote,
+  stats: state.stats,
+  state: state.state,
 });
 
-export default connect(mapStateToProps)(Main);
+const mapDispathToProps = (dispatch) => ({
+  getStats: () => dispatch(loadStatsAction()),
+  getState: () => dispatch(loadStateAction()),
+});
+
+export default connect(mapStateToProps, mapDispathToProps)(Main);
 
 const PrivateRoute = ({ component: Component, ...restProps }) => {
   const isAuthenticated = restProps.isAuthenticated;

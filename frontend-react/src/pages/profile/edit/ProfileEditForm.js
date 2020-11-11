@@ -9,6 +9,7 @@ import {
   FaTransgender,
   FaLocationArrow,
   FaSearchLocation,
+  FaPhoneAlt,
 } from "react-icons/fa";
 
 import Form from "../../../components/Form";
@@ -54,6 +55,11 @@ const validate = (values) => {
   if (!values.tole) {
     errors.tole = "Required";
   }
+  if (!values.phone) {
+    errors.phone = "Required";
+  } else if (isNaN(Number(values.phone))) {
+    errors.phone = "Must be a number.";
+  }
   return errors;
 };
 
@@ -71,6 +77,7 @@ export default function ProfileEditForm({ profile, editProfile }) {
     municipality: profile.municipality,
     ward: profile.ward,
     tole: profile.tole,
+    phone: profile.phone,
   };
 
   const InputRow = ({ placeholder, inputType, input, meta }) => (
@@ -200,6 +207,20 @@ export default function ProfileEditForm({ profile, editProfile }) {
                   <FaBirthdayCake />
                 </Form.Icon>
               </Form.Row>
+            </Form.Group>
+            <Form.Group>
+              <Form.Row>
+                <Field
+                  name="phone"
+                  inputType="text"
+                  placeholder="Contact Number"
+                  component={InputRow}
+                />
+                <Form.Icon>
+                  <FaPhoneAlt />
+                </Form.Icon>
+              </Form.Row>
+              <Form.Row />
             </Form.Group>
 
             <h6

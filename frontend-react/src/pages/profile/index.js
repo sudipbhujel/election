@@ -203,7 +203,7 @@ export default function ProfilePage({ profile, editProfile }) {
               </Profile.Icon>
               <Profile.ItemDetail>
                 <Profile.ItemTitle>Contact</Profile.ItemTitle>
-                <Profile.ItemValue>+977 9844309479</Profile.ItemValue>
+                <Profile.ItemValue>{profile.phone}</Profile.ItemValue>
               </Profile.ItemDetail>
             </Profile.InfoItem>
             {/* Email */}
@@ -214,7 +214,7 @@ export default function ProfilePage({ profile, editProfile }) {
               <Profile.ItemDetail>
                 <Profile.ItemTitle>Email</Profile.ItemTitle>
                 <Profile.ItemValue>
-                  admin.electionapp@gmail.com
+                  {profile.email}
                 </Profile.ItemValue>
               </Profile.ItemDetail>
             </Profile.InfoItem>

@@ -9,6 +9,8 @@ import app, {
   partiesSaga,
   profileSaga,
   voteSaga,
+  statsSaga,
+  stateSaga,
 } from "./index";
 
 import { loadState, saveState } from "../services/localStorage";
@@ -41,6 +43,8 @@ const configureStore = () => {
   sagaMiddleware.run(profileSaga);
   sagaMiddleware.run(partiesSaga);
   sagaMiddleware.run(voteSaga);
+  sagaMiddleware.run(statsSaga);
+  sagaMiddleware.run(stateSaga);
 
   store.close = () => store.dispatch(END);
   return store;
