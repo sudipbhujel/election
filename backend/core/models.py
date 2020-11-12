@@ -237,6 +237,9 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.get_full_name)
 
+    class Meta:
+        ordering = ['-date_submitted', ]
+
 
 class Party(models.Model):
     """

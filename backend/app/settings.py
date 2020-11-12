@@ -151,8 +151,8 @@ AUTH_USER_MODEL = 'core.User'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 
@@ -168,11 +168,11 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'smtp.sudipbhujel@gmail.com'
-# EMAIL_HOST_PASSWORD = 'Sudip@123'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'smtp.sudipbhujel@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sudip@123'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
