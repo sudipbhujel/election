@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { Form as FinalForm, Field } from "react-final-form";
 
@@ -393,9 +393,11 @@ export default function ElectionForm(props) {
               <Form.Row />
             </Form.Group>
 
-            <Button type="submit" disabled={submitting}>
-              Submit
-            </Button>
+            <div className="center">
+              <Button type="submit" disabled={submitting} sucess big>
+                Submit
+              </Button>
+            </div>
           </Form.Container>
         </Form>
       )}

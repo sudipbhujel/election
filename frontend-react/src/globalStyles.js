@@ -143,6 +143,11 @@ const GlobalStyles = createGlobalStyle`
     bottom: 0;
     background-color: rgba(0,0,0,0.8);
   }
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Container = styled.div`
@@ -200,11 +205,21 @@ const blackBtn = css`
   }
 `;
 
+const successBtn = css`
+  background-color: #5cb85c;
+
+  &:hover {
+    transition: all 0.3s ease-out;
+    background-color: #4a934a;
+  }
+`;
+
 export const Button = styled.button`
   background-color: #ffffff;
   border: none;
   outline: none;
   padding: 12px;
+  padding: ${({ big }) => (big ? "12px 2rem" : "12px")};
   border-radius: 5px;
   cursor: pointer;
   white-space: nowrap;
@@ -217,6 +232,8 @@ export const Button = styled.button`
       return `${dangerBtn}`;
     } else if (props.black) {
       return `${blackBtn}`;
+    } else if (props.success) {
+      return `${successBtn}`;
     } else {
       return `${primaryBtn}`;
     }

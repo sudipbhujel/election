@@ -16,11 +16,11 @@ export const displayMessageAction = (type, message, autoClose = 5000) => {
     progress: undefined,
   };
 
-  if (type == "success") {
+  if (type === "success") {
     toast.success(CustomToast, toastSettings);
-  } else if (type == "error") {
+  } else if (type === "error") {
     toast.error(CustomToast, toastSettings);
-  } else if (type == "warning") {
+  } else if (type === "warning") {
     toast.warning(CustomToast, toastSettings);
   } else {
     toast(CustomToast, toastSettings);

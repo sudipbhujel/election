@@ -189,30 +189,42 @@ export default function LoginForm({ children }) {
                 <Video ref={video} style={{ display: "none" }} />
                 <Canvas ref={canvas} hidden />
                 <Webcam.Image src={image} width="300px" />
-                <Button ref={nextButton} onClick={next}>
+                <Button ref={nextButton} onClick={next} big>
                   Next
                 </Button>
-                <Button
-                  ref={snapButton}
-                  onClick={snap}
-                  style={{ display: "none" }}
-                >
-                  Snap
-                </Button>
+                <div className="center">
+                  <Button
+                    ref={snapButton}
+                    onClick={snap}
+                    style={{ display: "none", marginTop: "0.4rem" }}
+                    black
+                    big
+                  >
+                    Snap
+                  </Button>
+                </div>
               </Webcam>
             </Form.Row>
+            {/* <div style={{display: "flex", justifyContent: "center"}}> */}
 
-            <Button
-              ref={submitButton}
-              type="submit"
-              disabled={submitting}
-              style={{ display: "none" }}
-            >
-              Submit
-            </Button>
-            <Link to="/signup">Don't have account</Link>
+            <div className="center">
+              <Button
+                ref={submitButton}
+                type="submit"
+                disabled={submitting}
+                style={{ display: "none" }}
+                big
+                success
+              >
+                Submit
+              </Button>
+            </div>
+            {/* </div> */}
             <br />
-            <Link to="/user/reset/password">Forgot Password</Link>
+            <Form.LinkGroup>
+              <Link to="/signup">Don't have account?</Link>
+              <Link to="/user/reset/password">Forgot Password?</Link>
+            </Form.LinkGroup>
           </Form.Container>
         </Form>
       )}

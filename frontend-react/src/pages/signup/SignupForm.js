@@ -295,27 +295,35 @@ export default function SignupForm(props) {
                 <Video ref={video} style={{ display: "none" }} />
                 <Canvas ref={canvas} hidden />
                 <Webcam.Image src={image} width="300px" />
-                <Button ref={nextButton} onClick={next}>
+                <Button ref={nextButton} onClick={next} big>
                   Next
                 </Button>
-                <Button
-                  ref={snapButton}
-                  onClick={snap}
-                  style={{ display: "none" }}
-                >
-                  Snap
-                </Button>
+                <div className="center">
+                  <Button
+                    ref={snapButton}
+                    onClick={snap}
+                    style={{ display: "none", marginTop: "0.4rem" }}
+                    big
+                    black
+                  >
+                    Snap
+                  </Button>
+                </div>
               </Webcam>
             </Form.Row>
 
-            <Button
-              ref={submitButton}
-              type="submit"
-              disabled={submitting}
-              style={{ display: "none" }}
-            >
-              Submit
-            </Button>
+            <div className="center">
+              <Button
+                ref={submitButton}
+                type="submit"
+                disabled={submitting}
+                style={{ display: "none" }}
+                big
+                success
+              >
+                Submit
+              </Button>
+            </div>
           </Form.Container>
         </Form>
       )}

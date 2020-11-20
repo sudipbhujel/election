@@ -11,7 +11,8 @@ import {
   Subheader,
   Select,
   Image,
-  FieldError
+  FieldError,
+  LinkGroup,
 } from "./styles/form";
 
 export default function Form({ children, ...restProps }) {
@@ -57,3 +58,7 @@ Form.Image = function FormImage({ children, ...restProps }) {
 Form.FieldError = function FormFieldError({ children, ...restProps }) {
   return <FieldError {...restProps}>&nbsp;&nbsp;<MdError />{children}</FieldError>;
 };
+
+Form.LinkGroup = function FormLinkGroup({children, ...restProps}) {
+  return <LinkGroup {...restProps}>{children}</LinkGroup>
+}

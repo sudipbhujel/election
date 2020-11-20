@@ -317,10 +317,11 @@ export default function ProfileEditForm({ profile, editProfile }) {
               </Form.Row>
               <Form.Row />
             </Form.Group>
-
-            <Button type="submit" disabled={submitting}>
-              Submit
-            </Button>
+            <div className="center">
+              <Button type="submit" disabled={submitting} big success>
+                Submit
+              </Button>
+            </div>
           </Form.Container>
         </Form>
       )}

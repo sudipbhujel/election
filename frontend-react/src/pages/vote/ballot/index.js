@@ -160,7 +160,7 @@ export default function Ballot(props) {
                     ))}
                   </Group>
                   <Submit>
-                    <Button primary type="submit" disabled={submitting}>
+                    <Button success type="submit" disabled={submitting} big>
                       Submit
                     </Button>
                   </Submit>

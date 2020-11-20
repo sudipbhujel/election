@@ -13,6 +13,8 @@ export const Header = styled.h4`
   text-align: center;
   margin: 1rem 0;
   font-size: 20px;
+  font-weight: normal;
+  color: #3770e2;
 `;
 
 export const Subheader = styled.h5`
@@ -108,4 +110,27 @@ export const FieldError = styled.span`
     outline: 0;
     border-color: red;
   }
+`
+
+export const LinkGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  
+  a {
+    margin: 0.4rem 0;
+    text-decoration: none;
+  
+    &: link {
+      color: #4d80e4;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: #3770ee;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+  }
+
 `

@@ -103,9 +103,11 @@ export default function UserPasswordResetConfirm(props) {
                   </Form.Icon>
                 </Form.Row>
                 <Form.Row />
-                <Button type="submit" disabled={submitting} primary>
-                  Submit
-                </Button>
+                <div className="center">
+                  <Button type="submit" disabled={submitting} success big>
+                    Submit
+                  </Button>
+                </div>
               </Form.Container>
             </Form>
           )}
