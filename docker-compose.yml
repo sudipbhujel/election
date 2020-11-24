@@ -13,11 +13,13 @@ services:
                     python manage.py migrate &&
                     python manage.py runserver 0.0.0.0:8000"
         environment: 
-            - SECRET_KEY=_b=x&inb(x!ic_er+lvjremkj4g7-+hth8nro4o)zimr7a1+s%
-            - DB_HOST=db
-            - DB_NAME=election
-            - DB_USER=postgres
-            - DB_PASS=supersecretpassword
+            - SECRET_KEY=${SECRET_KEY}
+            - DB_HOST=${DB_HOST}
+            - DB_NAME=${DB_NAME}
+            - DB_USER=${DB_USER}
+            - DB_PASS=${DB_PASS}
+            - INFURA_PROVIDER=${INFURA_PROVIDER}
+            - HOST_PRIVATE_KEY=${HOST_PRIVATE_KEY}
         depends_on: 
             - db
             - redis
@@ -25,9 +27,9 @@ services:
     db:
         image: postgres:12-alpine
         environment: 
-            - POSTGRES_DB=election
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=supersecretpassword
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
             - postgresql_data:/var/lib/postgresql/data
         ports:

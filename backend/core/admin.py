@@ -167,7 +167,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class PartyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'vote_count')
     search_fields = ('name',)
     readonly_fields = ('vote_count',)
     fieldsets = (
@@ -181,7 +181,7 @@ class PartyAdmin(admin.ModelAdmin):
 
 class CandidateAdmin(admin.ModelAdmin):
     change_form_template = "admin/candidates/change_form.html"
-    list_display = ('id', 'full_name', 'party_name')
+    list_display = ('id', 'full_name', 'party_name', 'is_candidate')
     list_filter = ('is_candidate',)
     fieldsets = (
         (_('Personal Info'), {'fields': ('profile', 'party', 'bio', 'plans')}),

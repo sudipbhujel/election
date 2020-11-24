@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from rest_framework import permissions
 from rest_framework import views
 from rest_framework.response import Response
@@ -48,6 +49,9 @@ class VoteView(views.APIView):
             candidate.party.vote_count += 1
             candidate.party.save()
             candidate.save()
+            user = get_user_model().objects.get(id=request.user.id)
+            user.profile.is_voted = True
+            user.profile.save()
             vote_succeeded.delay(request.user.citizenship_number)
             return Response(
                 {

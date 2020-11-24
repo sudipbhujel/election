@@ -147,7 +147,7 @@ function Main(props) {
 
       {auth.isAuthenticated &&
         props.state.data.state === 0 &&
-        profile.first_name && (
+        !profile.first_name && (
           <Accordoin title="Fill Form">
             <Accordoin.Body>
               <div>
@@ -160,11 +160,34 @@ function Main(props) {
           </Accordoin>
         )}
 
-      {auth.isAuthenticated && props.state.data.state === 1 && (
+      {auth.isAuthenticated && props.state.data.state === 0 && (
         <Accordoin title="Information">
           <Accordoin.Body>
             <div>
               <p>You can vote once the voting phase is started.</p>
+            </div>
+          </Accordoin.Body>
+        </Accordoin>
+      )}
+
+      {auth.isAuthenticated && props.state.data.state === 1 && !profile.is_voted && (
+        <Accordoin title="Information">
+          <Accordoin.Body>
+            <div>
+              <p>Election phase is started, Please caste the vote.</p>
+              <Link to="/vote">
+                <Button black>Vote Request</Button>
+              </Link>
+            </div>
+          </Accordoin.Body>
+        </Accordoin>
+      )}
+      
+      {auth.isAuthenticated && props.state.data.state === 1 && profile.is_voted && (
+        <Accordoin title="Information">
+          <Accordoin.Body>
+            <div>
+              <p>You've voted. You will see dashboard once election ends.</p>
             </div>
           </Accordoin.Body>
         </Accordoin>

@@ -1,4 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
+from rest_framework import exceptions
 
 import face_recognition
 from core.models import User
@@ -25,21 +26,25 @@ class FaceIdAuthBackend(ModelBackend):
         """
         Returns True if uploaded_face matches with the database face
         """
-        confirmed_image = face_recognition.load_image_file(face_id)
-        uploaded_image = face_recognition.load_image_file(uploaded_face_id)
+        try:
+            confirmed_image = face_recognition.load_image_file(face_id)
+            uploaded_image = face_recognition.load_image_file(uploaded_face_id)
 
-        face_locations = face_recognition.face_locations(uploaded_image)
-        if len(face_locations) == 0:
+            face_locations = face_recognition.face_locations(uploaded_image)
+            if len(face_locations) == 0:
+                return False
+
+            confirmed_encoding = face_recognition.face_encodings(confirmed_image)[
+                0]
+            unkown_encoding = face_recognition.face_encodings(uploaded_image)[0]
+
+            results = face_recognition.compare_faces(
+                [confirmed_encoding], unkown_encoding)
+
+            if results[0]:
+                return True
+
             return False
-
-        confirmed_encoding = face_recognition.face_encodings(confirmed_image)[
-            0]
-        unkown_encoding = face_recognition.face_encodings(uploaded_image)[0]
-
-        results = face_recognition.compare_faces(
-            [confirmed_encoding], unkown_encoding)
-
-        if results[0]:
-            return True
-
-        return False
+        except FileNotFoundError:
+            print('File not found.')
+            return

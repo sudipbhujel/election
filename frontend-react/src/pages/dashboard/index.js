@@ -55,10 +55,7 @@ export default function Dashboard(props) {
                 <h4>Total Candidates: {props.stats.total_candidate} </h4>
                 <h4>Total Voters: {props.stats.total_voter} </h4>
                 <h4>
-                  Total Vote Dropped:{" "}
-                  {typeof props.stats.total_voter_dropped === "undefined"
-                    ? 0
-                    : props.stats.total_voter_dropped}
+                  Total Vote Dropped: {props.stats.total_vote_dropped}
                 </h4>
               </Card>
               <Card>

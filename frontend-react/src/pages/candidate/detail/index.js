@@ -61,16 +61,6 @@ export default function CandidateDetail({ candidate }) {
                 __html: DOMPurify.sanitize(candidate.plans),
               }}
             />
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(candidate.manifesto),
-              }}
-            />
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(candidate.plans),
-              }}
-            />
           </Styles>
         </>
       )}

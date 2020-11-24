@@ -4,13 +4,13 @@ from django.core.mail import send_mail
 
 
 @shared_task
-def vote_succeeded(user_id):
+def vote_succeeded(citizenship_number):
     """
     Task to send an e-mail when the voter vote their candidate.
     """
     UserModel = get_user_model()
 
-    user = UserModel.objects.get(id=user_id)
+    user = UserModel.objects.get(citizenship_number=citizenship_number)
     subject = 'Voted Successfully.'
     message = f'Dear {user.citizenship_number} \n' \
         f'You have successfully voted.'
