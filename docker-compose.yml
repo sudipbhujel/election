@@ -20,6 +20,12 @@ services:
             - DB_PASS=${DB_PASS}
             - INFURA_PROVIDER=${INFURA_PROVIDER}
             - HOST_PRIVATE_KEY=${HOST_PRIVATE_KEY}
+            - EMAIL_BACKEND=${EMAIL_BACKEND}
+            - EMAIL_HOST=${EMAIL_HOST}
+            - EMAIL_PORT=${EMAIL_PORT}
+            - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+            - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+            - CONTRACT_ADDRESS=${CONTRACT_ADDRESS}
         depends_on: 
             - db
             - redis

@@ -1,4 +1,5 @@
 import json
+import os
 
 from .w3 import w3
 
@@ -7,8 +8,7 @@ with open('/backend/ethereum/build/election.json') as file:
     contract_interface = json.load(file)
 
 # Load contract address
-with open('/backend/ethereum/ADDRESS', 'r') as file:
-    contract_address = file.read()
+contract_address = os.environ.get('CONTRACT_ADDRESS')
 
 contract = w3.eth.contract(address=contract_address,
                            abi=contract_interface['abi'])

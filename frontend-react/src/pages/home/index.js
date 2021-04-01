@@ -23,7 +23,7 @@ function Home({ ...props }) {
         <Container>
           <Row>
             <Column>
-              <h5>Voting based on blockchian technology.</h5>
+              <h5>Voting based on blockchain technology.</h5>
               <h1>
                 The Voting System, <br />
                 where each vote is confirmed <br />

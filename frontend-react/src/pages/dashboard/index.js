@@ -62,7 +62,7 @@ export default function Dashboard(props) {
                 <h2>Winner</h2>
                 <div>
                   <img src={props.winner && props.winner.image} alt="" />
-                  <h5>JOHN DOE</h5>
+                  <h5>{props.winner.name}</h5>
                 </div>
                 {/* <h4>Total Voters: 15 000</h4>
             <h4>Total Vote Dropped: 10 000 </h4> */}
